@@ -1,0 +1,17 @@
+2010-07-20  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.3-00
+    * Added sequential and robust sequential imputation
+    * Added all PM-methods: MCD, SDE, OGK, S
+    * Adjusted the S4 class hierarhy
+    * Some help added
+    *
+2009-09-25  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-01
+    *
+2009-07-15  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.2-00
+    *
+    * Prehistory
+    *
+    
+
