@@ -10,7 +10,7 @@ Computes classical and robust principal components for incomplete data using an 
 \usage{
 PcaNA(x, ...)
 \method{PcaNA}{default}(x, k = 0, kmax = ncol(x), conv=1e-10, maxiter=100, 
-    method=c("locantore", "hubert", "grid", "proj", "class", "cov"), cov.control=NULL,
+    method=c("cov", "locantore", "hubert", "grid", "proj", "class"), cov.control=NULL,
     scale = FALSE, signflip = TRUE, trace=FALSE, \dots)
 \method{PcaNA}{formula}(formula, data = NULL, subset, na.action, \dots)
 }
