@@ -493,6 +493,9 @@ if(rescale){
         rngseed(1234567)                        # set random number generator seed
         ximp <- imp.norm(s, thetahat, x)        # impute missing data under the MLE
         xx<-imp.norm(s, thetahat, x)            # impute missing data under the MLE
+    }else if(impMeth == "seq")
+    {
+        ximp <- impSeq(x)
     }else if(impMeth == "rseq")
     {
         ximp <- impSeqRob(x, alpha=0.75)$x

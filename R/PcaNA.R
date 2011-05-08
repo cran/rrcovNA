@@ -52,7 +52,7 @@ PcaNA.formula <- function (formula, data = NULL, subset, na.action, ...)
 }
 
 PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
-    method=c("locantore", "hubert", "grid", "proj", "class", "cov"), cov.control=NULL,
+    method=c("cov", "locantore", "hubert", "grid", "proj", "class"), cov.control=NULL,
     scale=FALSE, signflip=TRUE, trace=FALSE, ...)
 {
 ##    conv = 1e-10;
@@ -79,7 +79,7 @@ PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
 
     for(iter in 1:maxiter)
     {
-        pca <- .PcaRobust(xc$x, control=method)
+        pca <- if(method == "grid" | method == "proj") .PcaRobust(xc$x, k=k, control=method, ...) else .PcaRobust(xc$x, k=k, control=method, cov.control=cov.control, ...)
         xp <- getScores(pca)[, 1:k] %*% t(getLoadings(pca)[,1:k])
         xc$x[isna] <- xp[isna]      # replace missing elements with
                                     # new estimates
@@ -95,8 +95,7 @@ PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
 
     x <- .scaleNABack(xc$x, loc=xc$loc, sc=xc$sc)
 
-    pca <- .PcaRobust(x, control=method, ...)
-    ## print(class(pca))
+    pca <- .PcaRobust(x, k=k, control=method, ...)
 
 ######################################################################
 #    names(eigenvalues) <- NULL
@@ -202,7 +201,6 @@ PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
 .PcaRobust <- function(x, control, ...)
 {
     cl <- match.call()
-
     if(missing(x)){
         stop("You have to provide at least some data")
     }
@@ -217,9 +215,12 @@ PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
 
     mm <- NULL
     if(missing(control))
+    {
         mm <- "auto"
-    else if(is.character(control))
+    }else if(is.character(control))
+    {
         mm <- casefold(control)
+    }
 
     ## either no control specified or the estimator is given by a character name -
     ##  create the necessary control object.

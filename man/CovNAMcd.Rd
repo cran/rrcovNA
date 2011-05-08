@@ -62,6 +62,10 @@ CovNAMcd(x, alpha = 1/2, nsamp = 500, seed = NULL, trace = FALSE, use.correction
   virtual class \code{\link{CovNARobust-class}}.
 }
 \references{
+  V. Todorov, M. Templ and P. Filzmoser. Detection of multivariate outliers in business
+  survey data with incomplete information. \emph{Advances in Data Analysis and Classification}, 
+  \bold{5} 37--56, 2011.
+  
   P. J. Rousseeuw and K. van Driessen (1999)
   A fast algorithm for the minimum covariance determinant estimator.
   \emph{Technometrics} \bold{41}, 212--223.
@@ -75,7 +79,14 @@ CovNAMcd(x, alpha = 1/2, nsamp = 500, seed = NULL, trace = FALSE, use.correction
 }
 \examples{
     data(bush10)
-    CovNAMcd(bush10)
+    mcd <- CovNAMcd(bush10)
+    mcd
+    summary(mcd)
+
+    plot(mcd)
+    plot(mcd, which="pairs")
+    plot(mcd, which="xydistance")
+    plot(mcd, which="xyqqchi2")   
 }
 \keyword{robust}
 \keyword{multivariate}
