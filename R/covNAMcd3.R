@@ -83,7 +83,7 @@
         cc <- .cov.na.wt(x)
         mcd <- cc$cov
         loc <- cc$center
-        obj <- determinant(mcd, log = TRUE)$modulus[1]
+        obj <- determinant(mcd, logarithm = TRUE)$modulus[1]
         if ( -obj/p > 50 ) {
             ans$cov <- mcd
             dimnames(ans$cov) <- list(dimn[[2]], dimn[[2]])
@@ -117,7 +117,7 @@
                 cnp2[1] <- robustbase:::MCDcons(p, sum.w/n)
                 ans$cov <- ans$cov * cnp2[1]
             }
-            if( - (determinant(ans$cov, log = TRUE)$modulus[1] - 0)/p > 50) {
+            if( - (determinant(ans$cov, logarithm = TRUE)$modulus[1] - 0)/p > 50) {
                 ans$singularity <- list(kind = "reweighted.MCD")
                 if(trace) cat("reweighted MCD is singular\n")
             }
@@ -275,7 +275,7 @@
         ans$raw.mah <- mah$d
 
         ## Check if the reweighted scatter matrix is singular.
-        if( - (determinant(ans$cov, log = TRUE)$modulus[1] - 0)/p > 50) {
+        if( - (determinant(ans$cov, logarithm = TRUE)$modulus[1] - 0)/p > 50) {
             ans$singularity <- list(kind = "reweighted.MCD")
             if(trace) cat("The reweighted MCD scatter matrix is singular.\n")
             ans$mah <- ans$raw.mah

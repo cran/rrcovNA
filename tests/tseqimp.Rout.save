@@ -1,6 +1,6 @@
 
-R version 2.14.0 Under development (unstable) (2011-04-30 r55703)
-Copyright (C) 2011 The R Foundation for Statistical Computing
+R Under development (unstable) (2012-02-18 r58393)
+Copyright (C) 2012 The R Foundation for Statistical Computing
 ISBN 3-900051-07-0
 Platform: i386-pc-mingw32/i386 (32-bit)
 
@@ -21,10 +21,14 @@ Loading required package: rrcov
 Loading required package: robustbase
 Loading required package: pcaPP
 Loading required package: mvtnorm
-Scalable Robust Estimators with High Breakdown Point (version 1.3-00)
+Scalable Robust Estimators with High Breakdown Point (version 1.3-02)
+
 Loading required package: norm
 Scalable Robust Estimators with High Breakdown Point for
-Incomplete Data (version 0.4-02)
+Incomplete Data (version 0.4-03)
+
+Warning message:
+replacing previous import 'show' when loading 'rrcov' 
 > 
 > alpha <- 0.55
 > 
@@ -148,3 +152,6 @@ integer(0)
 integer(0)
 > ##cbind(mcdc@wt, mcdna@wt, mcd@wt)
 > 
+> proc.time()
+   user  system elapsed 
+   0.90    0.06    0.95 

@@ -30,7 +30,7 @@ C
         integer xint(nlen)
         double precision x(n,p), mvcode
         double precision xdble(ndble)
-        double precision mu, sigma(p,p)
+        double precision mu(p), sigma(p,p)
 
         integer ipsi, ir, imdpst, inmdp, iro, inmis, ioc, imc
         integer iold, itheta, it, itobs, ic, isdv, ixbar,ixtmp
@@ -121,8 +121,9 @@ C
         integer mdpst(n), ro(n), nmis(p),oc(p), mc(p)
         double precision x(n,p), mvcode, xtmp(n,p)
         double precision old(d), theta(d), t(d), tobs(d)
-        double precision mu, sigma(p,p)
+        double precision mu(p), sigma(p,p)
         double precision c(p)
+        double precision sdv(p), xbar(p)
 
         integer mle, npatt
         double precision tau,m

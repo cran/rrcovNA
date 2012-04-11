@@ -1,12 +1,17 @@
+2012-04-11  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.4-03
+    *
+    * errors and warnings fixed
+    
 2011-03-13  Valentin Todorov  <valentin.todorov@chello.at>
     * 0.4-02
-    * 
+    *
     * improved the plot functions for CovNA objects
     *
     * Fixed a problem with PcaNA and method = "cov" - the default
     * method changed to "cov".
     *
-    
+
 2011-03-13  Valentin Todorov  <valentin.todorov@chello.at>
     * 0.4-00
     * Fixed a problem with impMeth="seq"
