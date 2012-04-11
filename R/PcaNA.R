@@ -132,7 +132,10 @@ PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
 {
     ## center and scale
     loc <- colMeans(x, na.rm = TRUE)
-    sc  <- sd(x, na.rm = TRUE)
+
+##  VT::deprecated sd(<data.frame>)
+##    sc  <- sd(x, na.rm = TRUE)
+  sc  <- apply(x, 2, sd, na.rm = TRUE)
 
     x <- sweep(x, 2, loc, "-")
     x <- sweep(x, 2, sc, "/")
