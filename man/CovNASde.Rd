@@ -8,7 +8,8 @@
     Compute a robust estimate of location and scale using the Stahel-Donoho projection based estimator
 }
 \usage{
-CovNASde(x, nsamp, maxres, tune = 0.95, eps = 0.5, prob = 0.99, impMeth = c("norm" , "seq", "rseq"), seed = NULL, trace = FALSE, control)
+CovNASde(x, nsamp, maxres, tune = 0.95, eps = 0.5, prob = 0.99, 
+impMeth = c("norm" , "seq", "rseq"), seed = NULL, trace = FALSE, control)
 }
 \arguments{
   \item{x}{ a matrix or data frame.

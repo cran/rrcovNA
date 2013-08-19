@@ -85,7 +85,7 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
         stop( "Data set and provided center have different dimensions!")
 
     ## Check for singularity of the cov matrix
-    if(rrcov:::isSingular(x))
+    if(rrcov::isSingular(x))
         stop("The covariance matrix is singular!")
 
     if(missing(cutoff))
@@ -101,9 +101,9 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
 ##    print(getDistance(ccov))
 
     md <- rd <- NULL
-    if(!rrcov:::isSingular(ccov))
+    if(!rrcov::isSingular(ccov))
         md <- sqrt(getDistance(ccov)$d)
-    if(!rrcov:::isSingular(x))
+    if(!rrcov::isSingular(x))
         rd <- sqrt(getDistance(x)$d)
 
     which <- match.arg(which)
@@ -178,7 +178,7 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
     }
 
     if(which == "all" || which == "screeplot") {
-        rrcov:::.myscreeplot(ccov=ccov, rcov=x)
+        rrcov::myscreeplot(ccov=ccov, rcov=x)
     }
 }) ## end { plot("CovRobust") }
 

@@ -1,8 +1,14 @@
+2013-08-19  Valentin Todorov  <valentin.todorov@chello.at>
+    * 0.4-4
+    *
+    * Warnings fixed - see mail from Prof. Ripley from 9.August 2013
+    *
+
 2012-04-11  Valentin Todorov  <valentin.todorov@chello.at>
     * 0.4-03
     *
     * errors and warnings fixed
-    
+
 2011-03-13  Valentin Todorov  <valentin.todorov@chello.at>
     * 0.4-02
     *
@@ -23,7 +29,7 @@
     * 0.3-00
     * Added sequential and robust sequential imputation
     * Added all PM-methods: MCD, SDE, OGK, S
-    * Adjusted the S4 class hierarhy
+    * Adjusted the S4 class hierarchy
     * Some help added
     *
 2009-09-25  Valentin Todorov  <valentin.todorov@chello.at>

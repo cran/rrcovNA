@@ -8,7 +8,8 @@
      Determinant) estimator.
 }
 \usage{
-CovNAMcd(x, alpha = 1/2, nsamp = 500, seed = NULL, trace = FALSE, use.correction = TRUE, impMeth = c("norm" , "seq", "rseq"), control)
+CovNAMcd(x, alpha = 1/2, nsamp = 500, seed = NULL, trace = FALSE, 
+use.correction = TRUE, impMeth = c("norm" , "seq", "rseq"), control)
 }
 \arguments{
   \item{x}{a matrix or data frame. }

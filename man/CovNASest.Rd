@@ -11,7 +11,8 @@
 }
 \usage{
     CovNASest(x, bdp = 0.5, arp = 0.1, eps = 1e-5, maxiter = 120,
-        nsamp = 500, impMeth = c("norm" , "seq", "rseq"), seed = NULL, trace = FALSE, tolSolve = 1e-13,
+        nsamp = 500, impMeth = c("norm" , "seq", "rseq"), seed = NULL, 
+        trace = FALSE, tolSolve = 1e-13,
         method = c("sfast", "surreal", "bisquare", "rocke", "suser"), control,
         t0, S0, initcontrol)
 }

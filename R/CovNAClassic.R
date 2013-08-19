@@ -82,7 +82,7 @@ setMethod("plot", signature(x="CovNAClassic", y="missing"), function(x, y="missi
         stop( "Data set and provided center have different dimensions!")
 
     ## Check for singularity of the cov matrix
-    if(rrcov:::isSingular(x))
+    if(rrcov::isSingular(x))
         stop("The covariance matrix is singular!")
 
     if(missing(cutoff))
@@ -121,6 +121,6 @@ setMethod("plot", signature(x="CovNAClassic", y="missing"), function(x, y="missi
 ##    }
 
     if(which == "all" || which == "screeplot") {
-        rrcov:::.myscreeplot(ccov=x)
+        rrcov::myscreeplot(ccov=x)
     }
 }) ## end { plot("CovClassic") }
