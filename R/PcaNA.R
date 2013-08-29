@@ -28,7 +28,7 @@ PcaNA.formula <- function (formula, data = NULL, subset, na.action, ...)
     mf <- eval.parent(mf)
     ## this is not a `standard' model-fitting function,
     ## so no need to consider contrasts or levels
-    if (rrcov:::.check_vars_numeric(mf))
+    if (.check_vars_numeric(mf))
         stop("PCA applies only to numerical variables")
 
     na.act <- attr(mf, "na.action")
@@ -120,7 +120,7 @@ PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
                             Ximp=as.matrix(x))
 
     ## Compute distances and flags
-    res <- rrcov:::.distances(x, p, res)
+    res <- rrcov::pca.distances(res, x, p)
 
     return(res)
 }
@@ -246,4 +246,13 @@ PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
     } else
             stop(paste("Undefined estimator: ", mm, "- Must be one of [locantore, hubert, proj, grid, cov, class]"))
     pca
+}
+
+.check_vars_numeric <- function(mf)
+{
+    ## we need to test just the columns which are actually used.
+    mt <- attr(mf, "terms")
+    mterms <- attr(mt, "factors")
+    mterms <- rownames(mterms)[apply(mterms, 1, any)]
+    any(sapply(mterms, function(x) is.factor(mf[,x]) || !is.numeric(mf[,x])))
 }

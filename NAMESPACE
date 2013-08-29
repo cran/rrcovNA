@@ -4,10 +4,11 @@ useDynLib(rrcovNA)
 exportPattern(".")
 
 # Import all packages listed as Imports or Depends
+
+importFrom(stats4, plot, summary)
+importFrom(methods, show)
 import(
-  stats4,
-##  robustbase,
-##  methods,
-  rrcov
-##  norm
+  robustbase,
+  rrcov,
+  norm
 )
