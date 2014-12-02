@@ -78,7 +78,7 @@ impSeqRob <- function(x, alpha=0.9){
     }else if(ntotcompl >= mincomplete)      # if enough complete observations check
     {                                       # if the cov matrix is not singular
         covm <- .covSD(x[complobs,], h)
-        r <- rrcov::rankMM(covm$cov)
+        r <- rankMM(covm$cov)
     }
 
     if(ntotcompl < mincomplete || r < p)        # if not enough complete observations
@@ -103,7 +103,7 @@ impSeqRob <- function(x, alpha=0.9){
             ## h <- floor(alpha*ncomplobs)
             h <- h.alpha.n(alpha, ncomplobs, p)
             covm <- .covSD(x[complobs,], h)
-            r <- rrcov::rankMM(covm$cov)
+            r <- rankMM(covm$cov)
             if(r >= p)
                 break
 
@@ -128,7 +128,7 @@ impSeqRob <- function(x, alpha=0.9){
 ##    B <- .extradir(x[complobs,], ndirect, true)    # n*ri
 
 ##    Bnorm <- vector(mode="numeric", length=nrow(B))   # ndir x 1
-##    Bnorm <- apply(B, 1, rrcov::vecnorm)   #
+##    Bnorm <- apply(B, 1, vecnorm)   #
 ##    Bnormr <- Bnorm[Bnorm > 1.E-12]         # choose only the nonzero length vectors
 ##    m <- length(Bnormr)                     # the number of directions that will be used
 ##    B <- as.matrix(B[Bnorm > 1.E-12,])      # B[m x ncol(X)]
@@ -137,12 +137,12 @@ impSeqRob <- function(x, alpha=0.9){
 
     ## projected points in columns
 
-##    Y <- as.matrix(x[complobs,]) %*% t(A)   # n x m - projections of the n points on each of the m directions
-##    Z <- rrcov::zeros(ncomplobs, m)        # n x m - to collect the outlyingness of each point on each direction
+##    Y <- as.matrix(x[complobs,]) %*% t(A)     # n x m - projections of the n points on each of the m directions
+##    Z <- matrix(0,ncomplobs, m)               # n x m - to collect the outlyingness of each point on each direction
 
 ##    medY <- apply(Y, 2, median)
 ##    madY <- apply(Y, 2, mad)
-##    Z <- abs(Y - rrcov::ones(ncomplobs,1) %*% medY) / (rrcov::ones(ncomplobs,1) %*% madY)
+##    Z <- abs(Y - matrix(1,ncomplobs,1) %*% medY) / (matrix(1,ncomplobs,1) %*% madY)
 
 ##    d <- apply(Z,1,max)
 ##    ds <- sort.int(d, index.return=TRUE)
@@ -160,9 +160,9 @@ impSeqRob <- function(x, alpha=0.9){
     d <- covm$d
     ds <- sort.int(d, index.return=TRUE)
 
-    flag <- rrcov::ones(1,n)
+    flag <- matrix(1, 1, n)
     flag[complobs[ds$ix[1:h]]] <- 0
-    outl <- rrcov::zeros(n,1)
+    outl <- matrix(0,n,1)
     outl[complobs] = d
 
     ncomplobsupdate  <- h
@@ -272,7 +272,7 @@ impSeqRob <- function(x, alpha=0.9){
                 n <- nrow(data)
                 p <- ncol(data)
                 r <- 1
-                B2 <- rrcov::zeros(ndirect, p)
+                B2 <- matrix(0,ndirect, p)
                 seed <- 0
                 while(r <= ndirect) {
                     sseed <- randomset(n, 2, seed)
@@ -282,7 +282,7 @@ impSeqRob <- function(x, alpha=0.9){
                 }
         } else
         {
-                B2 <- rrcov::zeros(ndirect, ncol(data))
+                B2 <- matrix(0,ndirect, ncol(data))
                 for(r in 1:ndirect) {
                     smpl <- sample(1:nrow(data), 2)                 # choose a random pair of points
                     B2[r,] <- data[smpl[1], ] - data[smpl[2], ]     # calculate the random direction based on these points
@@ -326,7 +326,7 @@ impSeqRob <- function(x, alpha=0.9){
     B <- .extradir(x, ndirect, true)    # n*ri
 
     Bnorm <- vector(mode="numeric", length=nrow(B))   # ndir x 1
-    Bnorm <- apply(B, 1, rrcov::vecnorm)   #
+    Bnorm <- apply(B, 1, vecnorm)   #
     Bnormr <- Bnorm[Bnorm > 1.E-12]         # choose only the nonzero length vectors
     m <- length(Bnormr)                     # the number of directions that will be used
     B <- as.matrix(B[Bnorm > 1.E-12,])      # B[m x ncol(X)]
@@ -336,11 +336,11 @@ impSeqRob <- function(x, alpha=0.9){
     ## projected points in columns
 
     Y <- x %*% t(A)                 # n x m - projections of the n points on each of the m directions
-    Z <- rrcov::zeros(n, m)        # n x m - to collect the outlyingness of each point on each direction
+    Z <- matrix(0,n, m)        # n x m - to collect the outlyingness of each point on each direction
 
     medY <- apply(Y, 2, median)
     madY <- apply(Y, 2, mad)
-    Z <- abs(Y - rrcov::ones(n,1) %*% medY) / (rrcov::ones(n,1) %*% madY)
+    Z <- abs(Y - matrix(1,n,1) %*% medY) / (matrix(1,n,1) %*% madY)
 
     d <- apply(Z,1,max)
     ds <- sort.int(d, index.return=TRUE)
@@ -349,9 +349,9 @@ impSeqRob <- function(x, alpha=0.9){
     covx <- cov(x[ds$ix[1:h], ])
     mx <- colMeans(x[ds$ix[1:h], ])
 
-    flag <- rrcov::ones(1,n)
+    flag <- matrix(1,1,n)
     flag[ds$ix[1:h]] <- 0
-    outl <- rrcov::zeros(n,1)
+    outl <- matrix(0,n,1)
     outl = d
 
     list(xseq = x, outl=as.vector(outl), flag=as.vector(flag))
@@ -370,7 +370,7 @@ impSeqRob <- function(x, alpha=0.9){
     B <- .extradir(x, ndirect, true)    # n*ri
 
     Bnorm <- vector(mode="numeric", length=nrow(B))   # ndir x 1
-    Bnorm <- apply(B, 1, rrcov::vecnorm)   #
+    Bnorm <- apply(B, 1, vecnorm)   #
     Bnormr <- Bnorm[Bnorm > 1.E-12]         # choose only the nonzero length vectors
     m <- length(Bnormr)                     # the number of directions that will be used
     B <- as.matrix(B[Bnorm > 1.E-12,])      # B[m x ncol(X)]
@@ -379,11 +379,11 @@ impSeqRob <- function(x, alpha=0.9){
 
     ## projected points in columns
     Y <- as.matrix(x) %*% t(A)              # n x m - projections of the n points on each of the m directions
-    Z <- rrcov::zeros(n, m)                # n x m - to collect the outlyingness of each point on each direction
+    Z <- matrix(0,n, m)                # n x m - to collect the outlyingness of each point on each direction
 
     medY <- apply(Y, 2, median)
     madY <- apply(Y, 2, mad)
-    Z <- abs(Y - rrcov::ones(n,1) %*% medY) / (rrcov::ones(n,1) %*% madY)
+    Z <- abs(Y - matrix(1,n,1) %*% medY) / (matrix(1,n,1) %*% madY)
 
     d <- apply(Z,1,max)
     ds <- sort.int(d, index.return=TRUE)

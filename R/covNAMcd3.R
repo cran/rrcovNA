@@ -114,7 +114,7 @@
 
             ## Consistency factor for reweighted MCD
             if(sum.w != n) {
-                cnp2[1] <- robustbase:::MCDcons(p, sum.w/n)
+                cnp2[1] <- .MCDcons(p, sum.w/n)
                 ans$cov <- ans$cov * cnp2[1]
             }
             if( - (determinant(ans$cov, logarithm = TRUE)$modulus[1] - 0)/p > 50) {
@@ -185,8 +185,8 @@
 
     ## Compute the consistency correction factor for the raw MCD
     ##  (see calfa in Croux and Haesbroeck)
-    calpha <- robustbase:::MCDcons(p, h/n)    ## VT::19.3.2007
-    correct <- if(use.correction) robustbase:::MCDcnp2(p, n, alpha) else 1.
+    calpha <- .MCDcons(p, h/n)    ## VT::19.3.2007
+    correct <- if(use.correction) .MCDcnp2(p, n, alpha) else 1.
     raw.cnp2 <- c(calpha, correct)
 
       ## Apply correction factor to the raw estimates
@@ -241,8 +241,8 @@
             correct.rew <- 1
         }
         else {
-            cdelta.rew <- robustbase:::MCDcons(p, sum.w/n) ## VT::19.3.2007
-            correct.rew <- if(use.correction) robustbase:::MCDcnp2.rew(p, n, alpha) else 1.
+            cdelta.rew <- .MCDcons(p, sum.w/n) ## VT::19.3.2007
+            correct.rew <- if(use.correction) .MCDcnp2.rew(p, n, alpha) else 1.
             cnp2 <- c(cdelta.rew, correct.rew)
         }
 

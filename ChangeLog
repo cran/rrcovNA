@@ -1,3 +1,20 @@
+2014-12-02  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 0.4-7
+    *
+2014-10-31  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 0.4-6
+    *
+    * Fixed compatibility issues with robustbase and rrcov versions (imports)
+    *
+2013-09-15  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 0.4-5
+    *
+    * Use suppressPackageStartupMessages(library(rrcov)) in the tests
+    *
+
 2013-08-19  Valentin Todorov  <valentin.todorov@chello.at>
     * 0.4-4
     *

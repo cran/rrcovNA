@@ -7,6 +7,9 @@ exportPattern(".")
 
 importFrom(stats4, plot, summary)
 importFrom(methods, show)
+importFrom(lattice, xyplot, panel.xyplot, panel.abline, ltext)
+importFrom(cluster, ellipsoidPoints)
+
 import(
   robustbase,
   rrcov,

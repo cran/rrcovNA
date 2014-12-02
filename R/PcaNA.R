@@ -120,7 +120,7 @@ PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
                             Ximp=as.matrix(x))
 
     ## Compute distances and flags
-    res <- rrcov::pca.distances(res, x, p)
+    res <- pca.distances(res, x, p)
 
     return(res)
 }
@@ -193,7 +193,7 @@ PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
    x
 }
 
-##  Move this fucntion to rrcov - similarly to CovRobust
+##  Move this function to rrcov - similarly to CovRobust
 ##
 ##  control can be a character specifying the name of the estimate, one of:
 ##  locantore, hubert, proj, grid, cov, class

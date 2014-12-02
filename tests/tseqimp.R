@@ -1,4 +1,6 @@
-library(rrcovNA)
+## VT::15.09.2013 - this will render the output independent
+##  from the version of the package
+suppressPackageStartupMessages(library(rrcovNA))
 
 alpha <- 0.55
 

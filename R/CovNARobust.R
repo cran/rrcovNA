@@ -85,7 +85,7 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
         stop( "Data set and provided center have different dimensions!")
 
     ## Check for singularity of the cov matrix
-    if(rrcov::isSingular(x))
+    if(isSingular(x))
         stop("The covariance matrix is singular!")
 
     if(missing(cutoff))
@@ -101,9 +101,9 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
 ##    print(getDistance(ccov))
 
     md <- rd <- NULL
-    if(!rrcov::isSingular(ccov))
+    if(!isSingular(ccov))
         md <- sqrt(getDistance(ccov)$d)
-    if(!rrcov::isSingular(x))
+    if(!isSingular(x))
         rd <- sqrt(getDistance(x)$d)
 
     which <- match.arg(which)
@@ -178,7 +178,7 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
     }
 
     if(which == "all" || which == "screeplot") {
-        rrcov::myscreeplot(ccov=ccov, rcov=x)
+        myscreeplot(ccov=ccov, rcov=x)
     }
 }) ## end { plot("CovRobust") }
 
@@ -418,8 +418,6 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
         lines(e.rob, col=ecol.rob)
     }
 
-    require(cluster)        # for ellipsoidPoints()
-
     ## get the data
     x <- getData(obj)
 
@@ -438,7 +436,6 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
     labs,
     ...)
 {
-    require(cluster)        # for ellipsoidPoints()
     d2.99 <- qchisq(0.975, df = 2)
 
     leg <- new(".Legend")
@@ -551,7 +548,6 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
     labs,
     ...)
 {
-    require(lattice)
     myPanel <- function(x, y, subscripts, cutoff, id.n, ...) {
         panel.xyplot(x, y, ...)
         panel.abline(h=cutoff,lty="dashed")
@@ -616,7 +612,6 @@ setMethod("plot", signature(x="CovNARobust", y="missing"), function(x, y="missin
     labs,
     ...)
 {
-    require(lattice)
     myPanel <- function(x, y, subscripts, cutoff, id.n, ...)
     {
         y <- sort(y, index.return=TRUE)

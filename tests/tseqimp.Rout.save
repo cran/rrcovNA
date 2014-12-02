@@ -1,7 +1,7 @@
 
 R Under development (unstable) (2013-08-17 r63608) -- "Unsuffered Consequences"
 Copyright (C) 2013 The R Foundation for Statistical Computing
-Platform: x86_64-w64-mingw32/x64 (64-bit)
+Platform: i386-w64-mingw32/i386 (32-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -15,16 +15,9 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> library(rrcovNA)
-Loading required package: rrcov
-Loading required package: robustbase
-Loading required package: pcaPP
-Loading required package: mvtnorm
-Scalable Robust Estimators with High Breakdown Point (version 1.3-4)
-
-Scalable Robust Estimators with High Breakdown Point for
-Incomplete Data (version 0.4-4)
-
+> ## VT::15.09.2013 - this will render the output independent
+> ##  from the version of the package
+> suppressPackageStartupMessages(library(rrcovNA))
 > 
 > alpha <- 0.55
 > 
@@ -150,4 +143,4 @@ integer(0)
 > 
 > proc.time()
    user  system elapsed 
-   1.07    0.06    1.13 
+   0.99    0.04    1.02 
