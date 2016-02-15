@@ -78,3 +78,10 @@ setMethod("show", "SummaryCovNA", function(object){
     dd <- getDistance(object)
     print.default(format(as.vector(dd$d), digits = digits), print.gap = 2, quote = FALSE)
 })
+
+##setMethod("impute", "CovNA", function(obj, ...){
+##    impWins(obj@X, obj@center, obj@cov, !getFlag(obj))
+##})
+##setMethod("impute", "CovNAMcd", function(obj, ...){
+##    impWins(obj@X, obj@center, obj@cov, !getFlag(obj))
+##})

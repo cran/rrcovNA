@@ -1,3 +1,11 @@
+2015-11-28  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 0.4-8
+    * 
+    * Fixed a bug related to rrcov update
+    * Added deterministic S estimates to CovNASest
+    *   
+    *
 2014-12-02  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 0.4-7

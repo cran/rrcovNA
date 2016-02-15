@@ -9,9 +9,9 @@ Computes classical and robust principal components for incomplete data using an 
 }
 \usage{
 PcaNA(x, ...)
-\method{PcaNA}{default}(x, k = 0, kmax = ncol(x), conv=1e-10, maxiter=100, 
+\method{PcaNA}{default}(x, k = ncol(x), kmax = ncol(x), conv=1e-10, maxiter=100, 
     method=c("cov", "locantore", "hubert", "grid", "proj", "class"), cov.control=NULL,
-    scale = FALSE, signflip = TRUE, trace=FALSE, \dots)
+    scale = FALSE, signflip = TRUE, crit.pca.distances = 0.975, trace=FALSE, \dots)
 \method{PcaNA}{formula}(formula, data = NULL, subset, na.action, \dots)
 }
 \arguments{
@@ -34,7 +34,7 @@ PcaNA(x, ...)
     components by finding such \code{k} that \eqn{l_k/l_1 >= 10.E-3} and 
     \eqn{\Sigma_{j=1}^k l_j/\Sigma_{j=1}^r l_j >= 0.8}. 
     It is preferable to investigate the scree plot in order to choose the number 
-    of components and then run again. Default is \code{k=0}. }
+    of components and then run again. Default is \code{k=ncol(x)}. }
   \item{kmax}{maximal number of principal components to compute.
     Default is \code{kmax=10}. If \code{k} is provided, \code{kmax} 
     does not need to be specified, unless \code{k} is larger than 10.}
@@ -57,6 +57,7 @@ PcaNA(x, ...)
   Default is \code{scale = FALSE}}
   \item{signflip}{a logical value indicating wheather to try to solve the sign indeterminancy of the loadings -   
   ad hoc approach setting the maximum element in a singular vector to be positive. Default is \code{signflip = FALSE}}
+  \item{crit.pca.distances}{criterion to use for computing the cutoff values for the orthogonal and score distances. Default is 0.975.}
   \item{trace}{whether to print intermediate results. Default is \code{trace = FALSE}}
 }
 \details{

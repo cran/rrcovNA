@@ -9,9 +9,28 @@ importFrom(stats4, plot, summary)
 importFrom(methods, show)
 importFrom(lattice, xyplot, panel.xyplot, panel.abline, ltext)
 importFrom(cluster, ellipsoidPoints)
+importFrom("grDevices", "dev.interactive", "palette")
+importFrom("graphics", "abline", "arrows", "axis", "box", "hist",
+         "legend", "lines", "pairs", "par", "points", "rect",
+         "strwidth", "text", "title")
+importFrom("methods", "is", "new")
+importFrom("stats", ".getXlevels", "cor", "cov", "cov.wt", "cov2cor",
+         "dchisq", "density", "dnorm", "ecdf", "mad", "mahalanobis",
+         "median", "model.matrix", "model.response", "na.fail",
+         "pchisq", "pf", "pgamma", "pnorm", "princomp", "qchisq",
+         "qf", "qnorm", "quantile", "rnorm", "runif", "sd", "terms",
+         "uniroot", "var")
+importFrom("utils", "combn")
+
+# importFrom(GSE, GSE)
 
 import(
   robustbase,
   rrcov,
   norm
 )
+
+##S3 generics
+S3method(PcaNA, default)
+S3method(PcaNA, formula)
+

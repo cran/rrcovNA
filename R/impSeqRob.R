@@ -7,6 +7,8 @@
 ##
 ##  The robust seqimpute method is described in:
 ##
+##      .......
+##
 ##  a) If the data set is complete, just return it without doing anything.
 ##  b) The algorithm needs at least p complete cases - if there are no or less than p
 ##      complete cases, find a way to impute them in some other way.

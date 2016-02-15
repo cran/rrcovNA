@@ -51,9 +51,9 @@ PcaNA.formula <- function (formula, data = NULL, subset, na.action, ...)
     res
 }
 
-PcaNA.default <- function(x, k=0, kmax=ncol(x), conv=1e-10, maxiter=100,
+PcaNA.default <- function(x, k=ncol(x), kmax=ncol(x), conv=1e-10, maxiter=100,
     method=c("cov", "locantore", "hubert", "grid", "proj", "class"), cov.control=NULL,
-    scale=FALSE, signflip=TRUE, trace=FALSE, ...)
+    scale=FALSE, signflip=TRUE, crit.pca.distances=0.975, trace=FALSE, ...)
 {
 ##    conv = 1e-10;
 ##    maxiter = 1000;

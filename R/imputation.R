@@ -26,7 +26,6 @@
         thetahat <- em.norm(s, showits=FALSE)   # find the mle
         rngseed(1234567)                        # set random number generator seed
         ximp <- imp.norm(s, thetahat, x)        # impute missing data under the MLE
-        xx<-imp.norm(s, thetahat, x)            # impute missing data under the MLE
     }else if(impMeth == "seq")
     {
         ximp <- impSeq(x)

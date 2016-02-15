@@ -13,7 +13,8 @@
     CovNASest(x, bdp = 0.5, arp = 0.1, eps = 1e-5, maxiter = 120,
         nsamp = 500, impMeth = c("norm" , "seq", "rseq"), seed = NULL, 
         trace = FALSE, tolSolve = 1e-13,
-        method = c("sfast", "surreal", "bisquare", "rocke", "suser"), control,
+        scalefn,
+        method = c("sfast", "surreal", "bisquare", "rocke", "suser", "sdet"), control,
         t0, S0, initcontrol)
 }
 \arguments{
@@ -42,7 +43,15 @@
   \item{tolSolve}{numeric tolerance to be used for inversion
     (\code{\link{solve}}) of the covariance matrix in
     \code{\link{mahalanobis}}.}
-  \item{method}{ Which algorithm to use: 'sfast'=FAST-S, 'surreal'=SURREAL, 'bisquare' or 'rocke' }
+  \item{scalefn}{\code{\link{function}} to compute a robust scale
+    estimate or character string specifying a rule determining such a
+    function. Used for computing the "deterministic" S-estimates (\code{method="sdet"}).
+    If \code{scalefn} is missing or is \code{NULL}, 
+    the function is selected depending on the data 
+    set size, following the recomendation of Hubert et al. (2012) - 
+    \code{\link[robustbase]{Qn}} if \code{n <= 1000} and \code{\link[robustbase]{scaleTau2}} otherwise.}
+  \item{method}{ Which algorithm to use: 'sfast'=FAST-S, 'surreal'=SURREAL, 'bisquare', 
+  'rocke' or 'sdet', which will invoke the deterministic algorihm of Hubert et al. (2012).}
   \item{control}{ a control object (S4) of class \code{\link{CovControlSest-class}}
     containing estimation options - same as these provided in the fucntion
     specification. If the control object is supplied, the parameters from it

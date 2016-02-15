@@ -33,3 +33,5 @@ setClass("CovNASest", representation(),
                     contains=c("CovNARobust", "CovSest"))
 
 setClass("PcaNA", representation(Ximp = "Umatrix"), contains="Pca")
+
+## setGeneric("impute", function(obj, ...) standardGeneric("impute", ...))
