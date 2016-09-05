@@ -1,10 +1,16 @@
+2016-09-03  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 0.4-9
+    *
+    * Shows differences (some platform?) after UNRELATED update of rrcov 1.4-1
+    *
 2015-11-28  Valentin Todorov  <valentin.todorov@chello.at>
     *
     * DESCRIPTION (Version): 0.4-8
-    * 
+    *
     * Fixed a bug related to rrcov update
     * Added deterministic S estimates to CovNASest
-    *   
+    *
     *
 2014-12-02  Valentin Todorov  <valentin.todorov@chello.at>
     *

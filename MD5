@@ -1,5 +1,5 @@
-3ec90e39d5efb50977b68d89473f269f *ChangeLog
-6f188e72f4d5ab576b9a4ca6a96c2b62 *DESCRIPTION
+efca5fcaac165789c159833d61072132 *ChangeLog
+39e620d731de560bce348a8278942d37 *DESCRIPTION
 f18cfa8daaaf11decde7e650cc1f381e *NAMESPACE
 6b1e0d2389503838862be4fb5c36c1ee *R/AllClasses.R
 016109243b41dcfabfbab51a5cca92c8 *R/CovNA.R
@@ -44,5 +44,5 @@ f65e383ed4fc291901daa3f0e245663c *man/impnorm.Rd
 174d300e4520673a0114f4d6eeba98a5 *src/R-rng4ftn.c
 b23d433904d120ec0ff0f295b05d0653 *src/emncov.f
 017cea0db9536acd5d77619172f31591 *src/fmcd.f
-39885dfc2c896493b0b6e0369e59e65f *tests/tseqimp.R
-02c26a421dee7881052fe92ff31fc6cf *tests/tseqimp.Rout.save
+b5145c04966d733133a4a18799df3eef *tests/tseqimp.R
+b2bf836a4e414666a4aa401de79c1233 *tests/tseqimp.Rout.save

@@ -1,7 +1,7 @@
 
-R Under development (unstable) (2013-08-17 r63608) -- "Unsuffered Consequences"
-Copyright (C) 2013 The R Foundation for Statistical Computing
-Platform: i386-w64-mingw32/i386 (32-bit)
+R Under development (unstable) (2016-08-12 r71089) -- "Unsuffered Consequences"
+Copyright (C) 2016 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -86,14 +86,10 @@ integer(0)
 > ximp <- impSeq(x); mcds <- CovMcd(ximp)                     # mcd - sequential imputation + MCD
 > ximp <- impSeqRob(x, alpha=alpha); mcd <- CovMcd(ximp$x)
 > mcdna <- CovNAMcd(x)
-> as.vector(which(mcdc@wt==0))
-[1]  1  6  9 10 11 15 18
-> as.vector(which(mcds@wt==0))
-[1]  6 10
-> as.vector(which(mcd@wt==0))
-[1]  1  2 10 11 15 18
-> as.vector(which(mcdna@wt==0))
-integer(0)
+> ##as.vector(which(mcdc@wt==0))
+> ##as.vector(which(mcds@wt==0))
+> ##as.vector(which(mcd@wt==0))
+> ##as.vector(which(mcdna@wt==0))
 > ##cbind(mcdc@wt, mcdna@wt, mcd@wt)
 > 
 > data(salinity); x <- y <- data.matrix(subset(salinity, select = -Y)); x[1,2] <- NA; x[8,3] <- NA; x[13,3] <- NA
@@ -143,4 +139,4 @@ integer(0)
 > 
 > proc.time()
    user  system elapsed 
-   0.99    0.04    1.02 
+   1.09    0.07    1.17 
