@@ -1,5 +1,5 @@
-efca5fcaac165789c159833d61072132 *ChangeLog
-39e620d731de560bce348a8278942d37 *DESCRIPTION
+b2f50cee35fabcb815492e1d6ffccd97 *ChangeLog
+2e67f3d8f6b46bb06a0872b89d855c4d *DESCRIPTION
 f18cfa8daaaf11decde7e650cc1f381e *NAMESPACE
 6b1e0d2389503838862be4fb5c36c1ee *R/AllClasses.R
 016109243b41dcfabfbab51a5cca92c8 *R/CovNA.R
@@ -10,7 +10,7 @@ e40d42e1cd49a60f5625fcdce35ae2d3 *R/CovNARobust.R
 02e075b67eb3cd42d81007090b14f728 *R/CovNASde.R
 fb3de32863d63e399103a981b23b9bd6 *R/CovNASest.R
 99a6a0e0dbad3ac3ac7acdcd1573fc35 *R/PcaNA.R
-1a3a94ab9c63fcf5268ac74305114278 *R/covNAMcd3.R
+32f3e84bbe2e8ea11931dd3201cc80f7 *R/covNAMcd3.R
 11cc0fda2089c6fc5ef6ff5f302e6d39 *R/impNorm.R
 7625d62d7a9310d9d1c4db92b9ea4bca *R/impSeq.R
 8eade3ecc5a508562b5cf76764a1077d *R/impSeqRob.R
@@ -37,12 +37,13 @@ e68445a36d2722329a1a7243be22a616 *man/PcaNA.Rd
 58259dee70e4aab699af165fd1185cad *man/SummaryCovNA-class.Rd
 1e3095c39527f6d8a42d90d77c3a5a87 *man/SummaryCovNARobust-class.Rd
 20b3e879c81bbd22ea61ab68df41abbe *man/bush10.Rd
-a6c71b268b6484682e6223d2117e5be7 *man/ces.Rd
+f7e80991ebd708b991ca57f87c038c02 *man/ces.Rd
 f65e383ed4fc291901daa3f0e245663c *man/impnorm.Rd
 647e53f68d04335a8c7e93bd6af019ef *man/impseq.Rd
 0b80c44d911cf90a244c526693803883 *man/impseqrob.Rd
 174d300e4520673a0114f4d6eeba98a5 *src/R-rng4ftn.c
-b23d433904d120ec0ff0f295b05d0653 *src/emncov.f
-017cea0db9536acd5d77619172f31591 *src/fmcd.f
+96bbd7a26eb8dd47120ecc5cc8585fa0 *src/emncov.f
+90dd5ba0b59fd3bdfd3fb073bb3cef18 *src/fmcd.f
+afdbe1f26c949ab86f804b2ce83993fd *src/rrcovna_init.c
 b5145c04966d733133a4a18799df3eef *tests/tseqimp.R
 b2bf836a4e414666a4aa401de79c1233 *tests/tseqimp.Rout.save

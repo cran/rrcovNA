@@ -430,12 +430,8 @@ if(rescale){
          initmean       = double(p),
          best       = rep.int(as.integer(10000), h),
          mcdestimate = double(1),    ## = 'det'
-         weights   = integer(n),
          exactfit  = integer(1), # output indicator: 0: ok; 1: ..., 2: ..
-         coeff     = matrix(double(5 * p), nrow = 5, ncol = p), ## plane
          kount     = integer(1),
-         adjustcov = double(p * p), ## << never used -- FIXME
-         integer(1),## << 'seed' no longer used -- FIXME
          temp   = integer(n),
          index1 = integer(n),
          index2 = integer(n),
@@ -445,14 +441,9 @@ if(rescale){
          am2    = double(n),
          slutn  = double(n),
 
-         med   = double(p),
-         mad   = double(p),
          sd    = double(p),
          means = double(p),
          bmeans= double(p),
-         w     = double(p),
-         fv1   = double(p),
-         fv2   = double(p),
 
          rec   = double(p+1),
          sscp1 = double((p+1)*(p+1)),
@@ -461,7 +452,6 @@ if(rescale){
          cinv1 = double(p * p),
          cova2 = double(p * p),
          cinv2 = double(p * p),
-         z     = double(p * p),
 
          cstock = double(10 * p * p),# (10,nvmax2)
          mstock = double(10 * p),    # (10,nvmax)
@@ -469,8 +459,6 @@ if(rescale){
          m1stock = double(km10 * p), # (km10,nvmax)
          dath = double(nmaxi * p),   # (nmaxi,nvmax)
 
-         cutoff = qchisq(0.975, p),
-         chimed = qchisq(0.5,   p),
          xdat = double(n * p),
          d = as.integer(d),
          xint = integer(nint),

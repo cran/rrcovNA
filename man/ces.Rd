@@ -6,7 +6,7 @@
     This data set has been derived from the Quarterly Interview Survey of the
     Consumer Expenditure Survey (CES) undertaken by the U.S. Department of Labor,
     Bureau of Labor Statistics and is available at
-    \url{http://econ.lse.ac.uk/courses/ec220/G/iedata/ces/} where also more details about
+    \url{https://www.bls.gov/cex/} where also more details about
     this survey can be found. The original data set comprises 869 households in 34
     variables of which one is unique ID, five characterize the size of the
     household, further 6 variables contain other characteristics of the household
@@ -34,7 +34,7 @@
 }
 %%\details{}
 \source{
-     \url{http://econ.lse.ac.uk/courses/ec220/G/iedata/ces/}
+     \url{https://www.bls.gov/cex/}
 }
 
 \references{

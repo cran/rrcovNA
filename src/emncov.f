@@ -1,7 +1,7 @@
 C       EMNINT  - an interface to EMNCOVC providing linear
 C               storage for easier call
-C      
-C       The essenetial input parameter is x(n,p) and mvcode and       
+C
+C       The essenetial input parameter is x(n,p) and mvcode and
 C       the output ones are mu and sigma.
 C       The work arrays are xint(nint) and xdble(ndble)
 C       Additinally 'd' is passed which is the dimension of the packed
@@ -12,17 +12,17 @@ C       nint = (p+1)*(p+1) + n*p + 3*n + 3*p
 C       ndble = 4*d + 3*p + n*p
 C
 C       Below is given the mapping of the vectors.
-C      
+C
 C nint: (p+1)*(p+1) + n*p + 3*n + 3*p
 C xint: psi           r     mdpst nmdp ro  nmis oc  mc
 C       (p+1)*(p+1) + n*p + n +   n +  n + p +  p + p
-C      
+C
 C ndble: 4*d + 3*p + n*p
 C xdble: old  theta  t   tobs  c    sdv  xbar  xtmp
 C        d  + d    + d + d +   p +  p +  p  +  n*p
 C
         SUBROUTINE EMNINT(x, n, p,
-     1        d, xint,nlen,xdble, ndble, 
+     1        d, xint,nlen,xdble, ndble,
      2        mu, sigma,
      3        mvcode)
 
@@ -45,7 +45,7 @@ C
         ioc    = inmis + p
         imc    = ioc + p
         inext  = imc + p
-        
+
         iold   = 1
         itheta = iold + d
         it     = itheta + d
@@ -64,14 +64,14 @@ c        CALL INTPR("ndble:",-1,ndble,1)
 c        CALL INTPR("NLEN:",-1,nlen,1)
 
 c        CALL INTPR(">>>>ENTER EMNCOV",-1,0,0)
-        CALL EMNCOV(x, n, p, 
-     *        d, xint(ipsi), 
-     *        xdble(iold), xdble(itheta), xdble(it), xdble(itobs), 
+        CALL EMNCOV(x, n, p,
+     *        d, xint(ipsi),
+     *        xdble(iold), xdble(itheta), xdble(it), xdble(itobs),
      1        xint(ir),xint(imdpst),xint(inmdp),xint(inmis),xint(iro),
      2        xint(ioc),xint(imc),
      3        xdble(ic), xdble(isdv), xdble(ixbar),
      4        mu, sigma,
-     5        mvcode, 
+     5        mvcode,
      6        xdble(ixtmp))
 
 c       CALL INTPR("<<<<EXIT EMNCOV",-1,0,0)
@@ -79,42 +79,42 @@ c       CALL INTPR("<<<<EXIT EMNCOV",-1,0,0)
         RETURN
         END
 
-C       EMNCOV - calculates the EM mean and covariance of x(n,p). 
+C       EMNCOV - calculates the EM mean and covariance of x(n,p).
 C       At each EM step emn() from package norm is called. For each EM
-C       step theta must be in sweep(0) condition. After execution, 
-C       the new parameter value is contained in t, and theta is left 
-C       swept on columns corresponding to observed variables in the 
-C       first missingness pattern. 
+C       step theta must be in sweep(0) condition. After execution,
+C       the new parameter value is contained in t, and theta is left
+C       swept on columns corresponding to observed variables in the
+C       first missingness pattern.
 
 C       x(n,p)  - input matrix
 C       d       - integer, dimension of the packed storage,
-C                 d=(2+3*p+p^2)/2      
-C       psi     integer (p+1,p+1), packed storage matrix      
-C       
+C                 d=(2+3*p+p^2)/2
+C       psi     integer (p+1,p+1), packed storage matrix
+C
 C       old, theta, t, tobs - double(d) - work arrays. The final result
-C               as packed storage is in theta and can be retrieved by 
-C               calling GETPAR() - this is done authomatically at the 
+C               as packed storage is in theta and can be retrieved by
+C               calling GETPAR() - this is done authomatically at the
 C               end and the par[mu, sigma] is returned too
 C
 C       r       - integer(n,p)
 C       ndpst, nmdp, ro - integer(n)
 C       nmis    - integer(p) - unmber of missing values in each variable
-C       oc, mc  - integer(p), work 
-C       c       - double(p), work        
+C       oc, mc  - integer(p), work
+C       c       - double(p), work
 C       sdv,xbar- double(p), work
 C       mu      - double(p) OUTPUT
 C       sigma   - double(p,p) OUTPUT
-C       mvcode  - double, missingness code      
-C       xtmp    - double(n,p), work      
-C      
-        SUBROUTINE EMNCOV(x, n, p, 
-     *        d, psi, 
-     *        old, theta, t, tobs, 
+C       mvcode  - double, missingness code
+C       xtmp    - double(n,p), work
+C
+        SUBROUTINE EMNCOV(x, n, p,
+     *        d, psi,
+     *        old, theta, t, tobs,
      1        r, mdpst, nmdp, nmis, ro,
      2        oc,mc,
      3        c, sdv, xbar,
      4        mu, sigma,
-     5        mvcode, 
+     5        mvcode,
      6        xtmp)
 
         integer n,p,d,psi(0:p,0:p),r(n,p),nmdp(n)
@@ -128,17 +128,17 @@ C
         integer mle, npatt
         double precision tau,m
         double precision tmax, delta, criterion
-        
-C       actually these should be parameters        
+
+C       actually these should be parameters
         maxits = 1000
         criterion = 1e-04
 
-C       not used - no prior is specified, finds the mle 
+C       not used - no prior is specified, finds the mle
         mle = 1
         tau = 1
         m   = 1
-       
-C Form matrix of packed storage indices    
+
+C Form matrix of packed storage indices
 C        d <- as.integer((2 + 3 * p + p^2)/2)
 C        psi <- .Fortran("mkpsi", p, matrix(as.integer(0), p + 1, p + 1))[[2]]
 
@@ -150,7 +150,7 @@ C    r <- 1 * is.na(x)
 C    nmis <- as.integer(apply(r, 2, sum))
 
         DO 10 j=1,p
-10         nmis(j) = 0   
+10         nmis(j) = 0
 
         DO 20 i=1,n
            DO 30 j=1,p
@@ -164,10 +164,10 @@ C    nmis <- as.integer(apply(r, 2, sum))
 
 C Index the missing data patterns
 C   mdp <- as.integer((r %*% (2^((1:ncol(x)) - 1))) + 1)
-              
+
         DO 40 j=1,p
 40         oc(j) = 2 ** (j - 1 )
-C        CALL INTPR('OC: ',-1,oc,p)  
+C        CALL INTPR('OC: ',-1,oc,p)
 
         DO 50 i=1,n
            nmdp(i) = 0
@@ -202,12 +202,12 @@ C       npatt is the number of non-dupl. patterns which
 C       are stored in mdpst(npatt)
         CALL MYNDUPL(nmdp, n, mdpst, npatt)
 
-C Compress the matrix r(n,p) -> r(npatt,p)        
+C Compress the matrix r(n,p) -> r(npatt,p)
         DO 380 i=1,npatt
            do 380 j=1,p
 380           xtmp(i,j) = 1 - r(mdpst(i),j)
         CALL SETMAT(r, n, p, npatt, xtmp)
-        
+
 C Other bookkeeping quantities - nmdp will contain
 C       the number of observations for each unique pattern
         IF(npatt .EQ. 1) THEN
@@ -217,12 +217,12 @@ C       the number of observations for each unique pattern
 390           nmdp(i-1) = mdpst(i) - mdpst(i-1)
            nmdp(npatt) = n + 1 - mdpst(npatt)
         ENDIF
-C        CALL INTPR('NMDP: ',-1,nmdp,npatt)  
+C        CALL INTPR('NMDP: ',-1,nmdp,npatt)
 
-C Center and scale the columns of x    
+C Center and scale the columns of x
         CALL CTRSC(x, n, p, xbar, sdv, mvcode)
 c        CALL DBLEPR("XBAR:",-1,xbar,p)
-C Calculate initial values        
+C Calculate initial values
         CALL STVALN(d, theta, p, psi)
         CALL TOBSN(d, tobs, p, psi, n, x, npatt, r, mdpst, nmdp, oc)
 
@@ -231,7 +231,7 @@ C Main loop call EMN from package norm
            DO 80 j=1,d
               t(j) = theta(j)
 80            old(j) = theta(j)
-           CALL EMN(d, t, theta, tobs, p, psi, n, x, 
+           CALL EMN(d, t, theta, tobs, p, psi, n, x,
      1           npatt, r, mdpst, nmdp, oc, mc, c, mle, tau, m,
      2           mu, sigma)
 
@@ -244,12 +244,12 @@ c          CALL DBLEPR('theta: ',-1,theta,d)
                    tmax = delta
                 ENDIF
 90         continue
-c           CALL DBLEPR('tmax: ',-1,tmax,1)    
+c           CALL DBLEPR('tmax: ',-1,tmax,1)
            if(tmax .LE. criterion) goto 9999
-100     continue 
+100     continue
 9999    continue
 
-        CALL GETPAR(p, d, theta, psi, sdv, xbar, mu, sigma)   
+        CALL GETPAR(p, d, theta, psi, sdv, xbar, mu, sigma)
         RETURN
         END
 
@@ -262,33 +262,32 @@ c           CALL DBLEPR('tmax: ',-1,tmax,1)
 390           r(i,j) = xtmp(i,j)
 
 
-C       CALL INTPR('R: ',-1,r,npatt*p)         
+C       CALL INTPR('R: ',-1,r,npatt*p)
         RETURN
         END
-C        
-C Returns mu=means and sigma=covariance from theta (packed storage, 
+C
+C Returns mu=means and sigma=covariance from theta (packed storage,
 C   centered and standardised with xbar, sdev)
-C        
+C
         SUBROUTINE GETPAR(p, d, theta, psi, sdv, xbar, mu, sigma)
-        integer p, d, psi(0:p,0:p) 
+        integer p, d, psi(0:p,0:p)
         double precision theta(d), sdv(p), xbar(p)
         double precision mu(p), sigma(p,p)
 
 C       mu <- theta[s$psi[1, 2:(s$p + 1)]] * s$sdv + s$xbar
         do 10 i=1,p
 10         mu(i) = theta(psi(0, i)) * sdv(i) + xbar(i)
-           
+
 C       sigma <- theta[s$psi[2:(s$p + 1), 2:(s$p + 1)]]
 C       sigma <- matrix(sigma, s$p, s$p)
 C       tmp <- matrix(s$sdv, s$p, s$p)
 C       sigma <- sigma * tmp * t(tmp)
-           
+
         do 30 i=1,p
            do 20 j=1,p
               sigma(i,j) = theta(psi(i, j)) * sdv(i) * sdv(j)
 20         continue
-30      continue              
-9999    continue           
+30      continue
         return
         end
 
@@ -332,10 +331,10 @@ C real x(n,p) was changed to the line below
 C************************************************************************
         subroutine emn(d,theta,t,tobs,p,psi,n,x,npatt,r,mdpst,nmdp,
      /      oc,mc,c,mle,tau,m,mu,lmbinv)
-C Performs one step of em. Theta must be in sweep(0) condition. 
+C Performs one step of em. Theta must be in sweep(0) condition.
 C After execution, the new parameter value is contained in t, and
 C theta is left swept on columns corresponding to observed variables
-C in the first missingness pattern. 
+C in the first missingness pattern.
         integer d,p,psi(0:p,0:p),n,npatt,r(npatt,p),nmdp(npatt)
         integer mdpst(npatt),oc(p),noc,mc(p),nmc,patt,mle
         double precision x(n,p)
@@ -390,8 +389,8 @@ C Sweeps theta to condition on the observed variables
            endif
 10      continue
         return
-        end 
-        
+        end
+
 C***********************************************************************
         subroutine swp(d,theta,pivot,p,psi,submat,dir)
 C Performs sweep on a symmetric matrix in packed storage.
@@ -454,7 +453,7 @@ C in the first noc elements of oc. Does not go beyond column=last.
            endif
 10      continue
         return
-        end 
+        end
 C************************************************************************
         subroutine moden(d,t,p,psi,n,tau,m,mu,lmbinv)
 C Alters the sufficient statistics to yield a posterior mode.
@@ -504,13 +503,13 @@ C position in packed storage of the matrix elements
 5          continue
 10      continue
         return
-        end 
-        
+        end
+
 C***********************************************************************
         subroutine ctrsc(x,n,p,xbar,sdv,mvcode)
 C Centers and scales the data matrix so that the observed data in every
 C column have mean zero and variance one. If a column has zero variance
-C or less than 2 observations then the data are centered (set equal 
+C or less than 2 observations then the data are centered (set equal
 C to zero)
         integer n,p,count
 C real x(n,p),mvcode was replaced by line below
@@ -537,7 +536,7 @@ C real x(n,p),mvcode was replaced by line below
                  do 9 i=1,n
                     if(x(i,j).ne.mvcode) x(i,j)=x(i,j)/sdv(j)
 9                continue
-               else 
+               else
                  sdv(j)=1.
               endif
            else
@@ -581,7 +580,7 @@ C real x(n,p),mvcode was replaced by line below
         integer t, gap, i,j, nextj
 
         do 10 i=1,kk
-10         ind(i) = i        
+10         ind(i) = i
         gap=kk
 100     gap=gap/2
         if(gap.eq.0) goto 200
@@ -605,7 +604,7 @@ C real x(n,p),mvcode was replaced by line below
 C
 C Return in ret the nret non-duplicated entries of the
 C       integer array a(kk)
-C        
+C
         SUBROUTINE MYNDUPL(a, kk, ret, nret)
         implicit none
         integer kk, a(kk), ret(kk), nret
@@ -620,14 +619,14 @@ C
                     ndupl = 0
                     goto 30
                  ENDIF
-20            continue                         
+20            continue
            ENDIF
-30         continue           
+30         continue
            if(ndupl.eq.1) THEN
               nret = nret + 1
               ret(nret) = i
            ENDIF
-10      continue        
+10      continue
         RETURN
         END
 
@@ -656,23 +655,23 @@ c        call dblepr("ctmp",-1,cinv,p*p)
         RETURN
         END
 
-C Returns an array of Mahalanobis-type distance of the  possibly 
-C       incomplete data observations in x(n,p) relative to the 
+C Returns an array of Mahalanobis-type distance of the  possibly
+C       incomplete data observations in x(n,p) relative to the
 C       mean 'mu' and the cov matrix 'sigma'
 C
 C       INPUT:
 C       x(n,p) - data matrix
-C       mu  
+C       mu
 C       sigma
 C       cinv - the inverse of sigma, to be used in case of complete
-C               observations        
-C       OUTPUT:        
-C       amah - array of mahalanobis distances        
-C       anov - array of degrees of freedom for chisq (dim of 
-C              observed values in each observation)        
+C               observations
+C       OUTPUT:
+C       amah - array of mahalanobis distances
+C       anov - array of degrees of freedom for chisq (dim of
+C              observed values in each observation)
 C       az   - array of standardized distances using Wilson-Hilferty
-C               transformation        
-C        
+C               transformation
+C
         SUBROUTINE NAMAH(x,n,p,mu,sigma,cinv,rec,amah,anov,az,
      *          ov,mutmp,ctmp,mvcode,EPS)
         INTEGER n, p, ov(p), anov(n)
@@ -697,21 +696,21 @@ C
         END
 C
 C Computes a Mahalanobis-type distance of the incomplete
-C       observation in rec relative to the mean 'mu' 
+C       observation in rec relative to the mean 'mu'
 C       and the cov matrix 'sigma'
 C
 C       INPUT:
 C       rec - data observation (possibly incomplete)
-C       mu  
+C       mu
 C       sigma
 C       cinv - the inverse of sigma, to be used in case of complete
-C               observation        
-C       OUTPUT:        
-C       mah - mahalanobis distance        
+C               observation
+C       OUTPUT:
+C       mah - mahalanobis distance
 C       nov - degrees of freedom for chisq (dim of observed values in
-C               rec)        
+C               rec)
 C       z  - standardized distances using Wilson-Hilferty
-C               transformation        
+C               transformation
 C
         SUBROUTINE NAMDIST(rec,p,mu,sigma,cinv,mah,nov,z,
      *                     ov,mutmp,ctmp,mvcode,EPS)
@@ -721,16 +720,16 @@ C
         DOUBLE PRECISION mah, z, mvcode
         DOUBLE PRECISION MDIST, DET, EPS
 
-C Collect the indexes of the observed values in 'ov'  
+C Collect the indexes of the observed values in 'ov'
         mah = 0D0
         z = 0D0
         nov=0
         DO 10 i=1,p
-           if(rec(i) .NE. mvcode) THEN 
+           if(rec(i) .NE. mvcode) THEN
               nov = nov + 1
               ov(nov) = i
            ENDIF
-10      CONTINUE           
+10      CONTINUE
 
         IF(nov .EQ. 0) THEN
 C All items are missing - return 0.
@@ -741,15 +740,15 @@ C Complete observation - copy mu and cinv in mutmp and ctmp
           CALL MTXCPY(mu, mutmp, p, 1)
           CALL MTXCPY(cinv, ctmp, p, p)
         ELSE
-C Compress the data, mu and sigma - keep only observded values           
-C       and invert sigma                
+C Compress the data, mu and sigma - keep only observded values
+C       and invert sigma
           DO 20 i=1,nov
              rec(i) = rec(ov(i))
              mutmp(i) = mu(ov(i))
              DO 30 j=1,nov
                ctmp((i-1)*nov+j) = sigma(ov(i), ov(j))
                ctmp((j-1)*nov+i) = sigma(ov(j), ov(i))
-30           CONTINUE              
+30           CONTINUE
 20        CONTINUE
           CALL MTXINV(CTMP, nov, DET, EPS, IER)
           IF(IER .NE. 0) THEN
@@ -758,7 +757,7 @@ C       and invert sigma
           ENDIF
         ENDIF
 
-        mah=MDIST(rec, nov, mutmp, ctmp) 
+        mah=MDIST(rec, nov, mutmp, ctmp)
         z = (mah/nov) ** (1D0/3D0)
 c        z = (mah/nov) ** (1D0/3D0) - 1D0 + 2D0/(9D0*nov)
 c        z = z / SQRT(2D0/(9D0*nov))
@@ -778,7 +777,7 @@ c        z = z / SQRT(2D0/(9D0*nov))
 
         SUBROUTINE MTXINV(A,P,DET,EPS,IER)
         INTEGER P,IER
-        DOUBLE PRECISION A(P*P), DET, EPS
+        DOUBLE PRECISION pivot, A(P*P), DET, EPS
 
         IER = 0
         DET = 1.D0
@@ -798,13 +797,13 @@ c        CALL INTPR('IER: ',-1,IER,1)
 999     CONTINUE
 c        CALL DBLEPR('DET: ',-1,det,1)
 c        CALL INTPR('IER: ',-1,IER,1)
-        RETURN        
+        RETURN
         END
 
         SUBROUTINE MTXSWP(A, P, K)
         INTEGER P,K
         DOUBLE PRECISION A(P,P), B, D
-       
+
         D = A(K,K)
 
         DO 100 j=1,P
@@ -822,4 +821,3 @@ c        CALL INTPR('IER: ',-1,IER,1)
         a(k,k)=1/d
         RETURN
         END
-             

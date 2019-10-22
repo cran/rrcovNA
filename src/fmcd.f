@@ -126,13 +126,11 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
         SUBROUTINE FNANMCD(dat,n,nvar,nhalff,krep,initcov,initmean,
-     *    inbest,det,weight,fit,coeff,kount,adcov,
-     *    iseed,
+     *    inbest,det,fit,kount,
      *    temp, index1, index2, nmahad, ndist, am, am2, slutn,
-     *    med, mad, sd, means, bmeans, w, fv1, fv2,
-     *    rec, sscp1, cova1, corr1, cinv1, cova2, cinv2, z,
+     *    sd, means, bmeans,
+     *    rec, sscp1, cova1, corr1, cinv1, cova2, cinv2,
      *    cstock, mstock, c1stock, m1stock, dath,
-     *    cutoff, chimed,
      *    xdat, ddd, xint, nlen, xdble, ndble, mvcode,
      *    xindex1, xindex2)
 
@@ -170,7 +168,7 @@ cc
         parameter (nmaxi=nmini*kmini)
 cc
         integer rfncomb
-        integer ierr,matz,seed,tottimes,step
+        integer ierr,matz,tottimes,step
         integer pnsel
         integer flag(km10)
         integer mini(kmini)
@@ -183,14 +181,10 @@ c FIXME                 ^^^ how does this depend on (kmini,nmini,...) ???
         double precision pivot,rfmahad,medi2
 
         integer inbest(nhalff)
-        integer weight(n)
-        double precision coeff(kmini,nvar)
         double precision dat(n,nvar)
         double precision initcov(nvar*nvar)
-        double precision adcov(nvar*nvar)
         double precision initmean(nvar)
 
-        double precision med1,med2
         integer temp(n)
         integer index1(n)
         integer index2(n)
@@ -198,12 +192,9 @@ c FIXME                 ^^^ how does this depend on (kmini,nmini,...) ???
         double precision ndist(n)
         double precision am(n),am2(n),slutn(n)
 
-        double precision med(nvar)
-        double precision mad(nvar)
         double precision sd(nvar)
         double precision means(nvar)
         double precision bmeans(nvar)
-        double precision w(nvar),fv1(nvar),fv2(nvar)
 
         double precision rec(nvar+1)
         double precision sscp1((nvar+1)*(nvar+1))
@@ -212,7 +203,6 @@ c FIXME                 ^^^ how does this depend on (kmini,nmini,...) ???
         double precision cinv1(nvar*nvar)
         double precision cova2(nvar*nvar)
         double precision cinv2(nvar*nvar)
-        double precision z(nvar*nvar)
 
         double precision cstock(10,nvar*nvar)
         double precision mstock(10,nvar)
@@ -220,9 +210,9 @@ c FIXME                 ^^^ how does this depend on (kmini,nmini,...) ???
         double precision m1stock(km10,nvar*nvar)
         double precision dath(nmaxi,nvar)
 
-C       Added for handling missing values - parameters and work 
+C       Added for handling missing values - parameters and work
 C       for calling the EM algo - EMNINT().
-C       ddd = (2 + 3 * p + p^2)/2 - dimension of the packed storage        
+C       ddd = (2 + 3 * p + p^2)/2 - dimension of the packed storage
 C       nint  = (p+1)*(p+1) + n*p + 3*n + 3*p - dim of the integer
 C               srorage
 C       ndble = 4*d + 2*p + n*p - dimension of the double storage
@@ -236,7 +226,7 @@ C       xindex2, xilen2 = same as above in the group data matrix dath()
         double precision xdble(ndble), mvcode
         double precision xdat(n*nvar)
 
-C       Local variables        
+C       Local variables
         double precision percen
         logical all,part,fine,final,rfodd,class
         logical complete
@@ -305,7 +295,6 @@ cc	    n can be drawn
 cc    subdat = matrix with a first row containing indices of observations
 cc	       and a second row indicating the corresponding subdataset
 cc
-        seed=iseed
         matz=1
         nsel=nvar+1
         ngroup=1
@@ -349,23 +338,23 @@ C            xilen2 = xilen2 + 1
 C            xindex2(xilen2) = i
 C          ENDIF
 24      continue
-          
+
         IF(xilen1 .LE. 2*nsel) THEN
-            CALL INTPR('NOT ENOUGH COMPLETE OBS.',-1,xilen1,1)
+            CALL INTPR('NOT ENOUGH COMPLETE OBS.',-1,0,0)
             fit = 3
             goto 9999
 
 C       not enough complete observations for drawing the
 C       (p+1)-subsamples - take also these with only one missing item.
 C          IF(xilen2 .LE. 2*nvar) THEN
-C            CALL INTPR('NOT ENOUGH COMPLETE OBS.',-1,xilen2,1)
+C            CALL INTPR('NOT ENOUGH COMPLETE OBS.',-1, xilen2,1)
 C            fit = 3
 C            goto 9999
 C          ENDIF
 C          xilen1 = xilen2
 C          DO 26 i=1,xilen2
 C26          xindex1(i) = xindex2(i)
-        
+
         ENDIF
 cc
 cc  Determine whether the dataset needs to be divided into subdatasets
@@ -440,7 +429,7 @@ c MM(FIXME):  The following code depends crucially on  kmini == 5
           if(ngroup.gt.kmini) ngroup=kmini
           nrep=int((krep*1.D0)/ngroup)
           minigr=mini(1)+mini(2)+mini(3)+mini(4)+mini(5)
-          call rfrdraw(subdat,n,seed,minigr,mini,ngroup,kmini)
+          call rfrdraw(subdat,n,minigr,mini,ngroup,kmini)
         else
           minigr=n
           nhalf=nhalff
@@ -453,7 +442,6 @@ c     		use all combinations; happens iff  nsel = nvar+1 = p+1 <= 6
             all=.false.
           endif
         endif
-        seed=iseed
 
 C        CALL INTPR('xilen1',-1,xilen1,1)
 C        CALL INTPR('nrep',-1,nrep,1)
@@ -516,7 +504,7 @@ cc
 cc ********* Compute the classical estimates **************
 cc
 c        CALL INTPR('Compute the classical estimates ... ',-1,det,0)
-C-EM-MCD-START                    
+C-EM-MCD-START
 c        call rfcovinit(sscp1,nvar+1,nvar+1)
 c        do 51 i=1,n
 c          do 53 j=1,nvar
@@ -535,7 +523,7 @@ C-EM-MCD-END
         CALL EMNINT(xdat,n,nvar,
      *              ddd,xint,nlen,xdble,ndble,
      *              means,cova1,mvcode)
-        
+
 c        do 57 j=1,nvar
 c          if(sd(j).eq.0.D0) goto 5001
 c57      continue
@@ -553,12 +541,12 @@ c       if just classical estimate, we are done
           CALL MTXCPY(cova1,initcov,nvar,nvar)
           goto 9999
         endif
-        
+
         goto 5002
 
 c  singularity '1' (exact fit := 1) :
 5001    continue
-C-EM-MCD    EXACT FIT        
+C-EM-MCD    EXACT FIT
         fit=1
         goto 9999
 
@@ -567,7 +555,7 @@ cc
 cc  Compute and store classical Mahalanobis distances.
 cc      --- not used ---
 c        CALL NAMAH(dat,n,nvar,means,cova1,cinv1,rec,nmahad,temp,am2,
-c     *          temp,am,corr1,mvcode,EPS)        
+c     *          temp,am,corr1,mvcode,EPS)
 c
 
 cc******** Compute the MCD estimates ************** ------------------------------
@@ -606,7 +594,7 @@ c	  (part .and. .not. final)
 
 C
 C       Determine the number of iterations depending on the size of the
-C       data set: 
+C       data set:
 C               nrep = 10 if n <= 5000, otherwise nrep=1
 C               kstep = k3 or 10, 9, ..., 1
 C
@@ -697,20 +685,6 @@ cc
 85            mcdndex(i,2,j)=10.d25
 83         continue
         endif
-        
-C VT::: rescale the data by subtracting MED and deviding by MAD
-C       now only compute MED and MAD (using incomplete data) and if  
-C       MAD(J) .LT. EPS then set fit=2 and exit (goto 9999)
-        
-C       if(.not.fine.and..not.final) then
-C
-C          Compute MED and MAD for each var j               
-C        
-C          if(mad(j)-0.D0 .lt. eps) then 
-C              fit=2
-C              goto 9999 
-C           endif        
-C        endif
 
 cc
 cc  The matrix dath contains the observations to be used in the
@@ -746,14 +720,14 @@ C        CALL INTPR('LOOP OVER GROUPS - NGROUP ',-1,ngroup,1)
                 subndex(jndex)=subdat(1,j)
               endif
 103         continue
-            
+
             xilen2 = 0
             do 105 j=1,mini(ii)
               complete = .TRUE.
               do 107 k=1,nvar
                 IF(dat(subndex(j),k) .EQ. mvcode) complete = .FALSE.
                 dath(j,k)=dat(subndex(j),k)
-107           continue                
+107           continue
                 IF(complete) THEN
                   xilen2 = xilen2 + 1
                   xindex2(xilen2) = j
@@ -829,15 +803,12 @@ c        CALL INTPR('XILEN2: ',-1,xilen2,1)
 
           if((part.and..not.fine).or.(.not.part.and..not.final)) then
             if(part) then
-C              call rfrangen(mini(ii),nsel,index1,seed)
-              call rfrangen(xilen2,nsel,index1,seed)
+              call rfrangen(xilen2,nsel,index1)
             else
               if(all) then
-C                call rfgenpn(n,nsel,index1)
                 call rfgenpn(xilen1,nsel,index1)
               else
-C                call rfrangen(n,nsel,index1,seed)
-                call rfrangen(xilen1,nsel,index1,seed)
+                call rfrangen(xilen1,nsel,index1)
               endif
             endif
           endif
@@ -859,7 +830,7 @@ c        CALL INTPR('I=1,NREP ',-1,i,1)
 
 C VT::: Copy the selected subsample from dat or dath respectively into
 C       xdat and than calculate the mean and covariance matrix of xdat
-C       Select only complete observations        
+C       Select only complete observations
 
           if(.not. final .and. .not. fine) then
 
@@ -871,10 +842,10 @@ C       Select only complete observations
                 do 272 m=1,nvar
 272              xdat(pnsel*(m-1)+j) = dat(xindex1(index1(j)),m)
               else
-                CALL INTPR("ERROR - should never come here!",-1,0.0)
+                CALL INTPR("ERROR - should never come here!",-1,0,0)
               endif
 270         continue
-              
+
 c            CALL INTPR('index1',-1,index1,pnsel)
             CALL EMNINT(xdat,pnsel,nvar,
      *                   ddd,xint,nlen,xdble,ndble,
@@ -904,13 +875,13 @@ c            CALL DBLEPR('MEANS',-1,means,nvar)
             else
               goto 1111
             endif
-          else  
-             CALL INTPR("ERROR - should never come here!",-1,0.0)     
+          else
+             CALL INTPR("ERROR - should never come here!",-1,0,0)
           endif
 
 C VT::: Invert the cov matrix. If singular add one more observation and
 C       retry
-C                 
+C
 c          CALL INTPR('I=1,NREP ....... invert now',-1,i,1)
           CALL MTXCPY(cova1,cinv1,nvar,nvar)
           CALL MTXINV(cinv1, nvar, det, eps, IERR)
@@ -966,17 +937,17 @@ cc  The best subset for the whole data is stored in the array inbest.
 cc  The iteration stops when two subsequent determinants become equal.
 cc
 
-9555      do 400 step=1,kstep
+         do 400 step=1,kstep
             tottimes=tottimes+1
 c        CALL INTPR('step=1,kstep',-1,step,1)
 
 C VT::: Compute the covariance matrix of the nhalf observations
-C       with smallest D2            
+C       with smallest D2
             do 155 j=1,nhalf
 155           temp(j)=index2(j)
             call rfishsort(temp,nhalf)
 
-C-EM-MCD-START            
+C-EM-MCD-START
 c            call rfcovinit(sscp1,nvar+1,nvar+1)
 c            do 157 j=1,nhalf
 c              if(.not.part.or.final) then
@@ -1004,10 +975,10 @@ C-EM-MCD-END
      *                   ddd,xint,nlen,xdble,ndble,
      *                   means,cova1,mvcode)
 
-C VT::: Invert the matrix and check for singularity            
+C VT::: Invert the matrix and check for singularity
             CALL MTXCPY(cova1,cinv1,nvar,nvar)
             CALL MTXINV(cinv1, nvar, det, eps, IERR)
-            
+
 c            if(final) then
 c            CALL INTPR('TMP BEST',-1,temp,nhalf)
 c            CALL DBLEPR('TMP MEANS',-1,means,nvar)
@@ -1069,7 +1040,7 @@ C       Best so far solution found - print it
 c        CALL INTPR('BEST: ',-1,inbest,nhalf)
 c        CALL DBLEPR('BEST MEANS: ',-1,means,nvar)
 c        CALL DBLEPR('BEST DET: ',-1,det,1)
-              
+
             endif
 400       continue
 
@@ -1214,11 +1185,11 @@ cc
 
 cc******** end { Main Loop } ************** --------------------------------
 
-C VT::: Prepare the output parameters. No need of distances, weights, 
+C VT::: Prepare the output parameters. No need of distances, weights,
 C       and adjusted cov matrix
 C
 C       initmean, initcov, det
-C        
+C
         CALL MTXCPY(bmeans,initmean,nvar,1)
         CALL MTXCPY(cova2,cova1,nvar,nvar)
         CALL MTXCPY(cova1,initcov,nvar,nvar)
@@ -1247,7 +1218,6 @@ c
         integer jndex, nrand, i,j
 cc
         jndex=pnsel
-cOLD 	nrand=int(uniran(seed)*(nn-jndex))+1
         nrand=int(unifrnd() * (nn-jndex))+1
 C         if(nrand .gt. nn-jndex) then
 C            call intpr(
@@ -1330,19 +1300,18 @@ c--   fastLTS ( ./rfltsreg.f )  and
 c--   fastMCD ( ./rffastmcd.f )
 c
 c
-      subroutine rfrangen(n, nsel, index, seed)
+      subroutine rfrangen(n, nsel, index)
 c
 c     Randomly draws nsel cases out of n cases.
 c     Here, index is the index set.
 c
       implicit none
-      integer n, nsel, index(nsel), seed
+      integer n, nsel, index(nsel)
 c     real uniran
       double precision unifrnd
       integer i,j, num
 c
       do 100 i=1,nsel
-c     OLD 10	  num=int(uniran(seed)*n)+1
 10      num=int(unifrnd()*n)+1
 C 	 if(num .gt. n) then
 C 	    call intpr('** rfrangen(): num > n; num=', -1, num, 1)
@@ -1545,13 +1514,13 @@ c    while(l < lr)
         end
 ccccc
 ccccc
-        subroutine rfrdraw(a,n,seed,ntot,mini,ngroup,kmini)
+        subroutine rfrdraw(a,n,ntot,mini,ngroup,kmini)
 cc
 cc  Draws ngroup nonoverlapping subdatasets out of a dataset of size n,
 cc  such that the selected case numbers are uniformly distributed from 1 to n.
 cc
         implicit none
-        integer ntot, kmini, a(2,ntot), n, seed, mini(kmini), ngroup
+        integer ntot, kmini, a(2,ntot), n, mini(kmini), ngroup
 c
         double precision unifrnd
 c
@@ -1560,7 +1529,6 @@ cc
         jndex=0
         do 10 k=1,ngroup
            do 20 m=1,mini(k)
-cOLD 	    nrand=int(uniran(seed)*(n-jndex))+1
             nrand=int(unifrnd()*(n-jndex))+1
 C 	    if(nrand .gt. n-jndex) then
 C 	       call intpr(
@@ -1602,4 +1570,3 @@ ccccc
         if(2*(n/2).eq.n) rfodd=.false.
         return
         end
-              
