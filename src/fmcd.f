@@ -126,13 +126,11 @@ cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc
 
         SUBROUTINE FNANMCD(dat,n,nvar,nhalff,krep,initcov,initmean,
-     *    inbest,det,fit,kount,
-     *    temp, index1, index2, nmahad, ndist, am, am2, slutn,
-     *    sd, means, bmeans,
-     *    rec, sscp1, cova1, corr1, cinv1, cova2, cinv2,
-     *    cstock, mstock, c1stock, m1stock, dath,
-     *    xdat, ddd, xint, nlen, xdble, ndble, mvcode,
-     *    xindex1, xindex2)
+     *    inbest,det,fit,
+     *    kount,temp,index1,index2,nmahad,ndist,am,am2,sd,
+     *    means,bmeans,rec,sscp1,cova1,corr1,cinv1,cova2,cinv2,cstock,
+     *    mstock,c1stock,m1stock,dath,xdat,ddd,xint,nlen,xdble,ndble,
+     *    mvcode,xindex1,xindex2)
 
         implicit integer(i-n), double precision(a-h,o-z)
 
@@ -178,7 +176,7 @@ cc
 c FIXME                 ^^^ how does this depend on (kmini,nmini,...) ???
         integer replow
         integer fit
-        double precision pivot,rfmahad,medi2
+        double precision medi2
 
         integer inbest(nhalff)
         double precision dat(n,nvar)
@@ -190,7 +188,7 @@ c FIXME                 ^^^ how does this depend on (kmini,nmini,...) ???
         integer index2(n)
         double precision nmahad(n)
         double precision ndist(n)
-        double precision am(n),am2(n),slutn(n)
+        double precision am(n),am2(n)
 
         double precision sd(nvar)
         double precision means(nvar)
@@ -231,7 +229,7 @@ C       Local variables
         logical all,part,fine,final,rfodd,class
         logical complete
 
-C	CALL INTPR('Entering RFFASTMCD - KREP: ',-1,KREP,1)
+C       CALL INTPR('Entering RFFASTMCD - KREP: ',-1,KREP,1)
 
         call rndstart
 C            -------- == GetRNGstate() in C
@@ -365,7 +363,8 @@ cc
 c MM(FIXME):  The following code depends crucially on  kmini == 5
 
         do 22 i=1,kmini
-22        mini(i)=0
+          mini(i)=0
+22      continue
         if(n.gt.(2*nmini-1)) then
           kstep=k1
           part=.true.
@@ -496,7 +495,8 @@ cc
            temp(j)=1000000
 41      continue
         do 43 j=1,km10
-43        flag(j)=1
+          flag(j)=1
+43      continue
 
 
 9500    continue
@@ -622,34 +622,34 @@ C
                      if (n*nvar .gt.400000 .and. n*nvar
      *                  .le.500000) then
                         kstep=7
-		    else
-		      if (n*nvar .gt.500000 .and. n*nvar
-     *			.le.600000) then
-			kstep=6
-		      else
-			if (n*nvar .gt.600000 .and. n*nvar
-     *			  .le.700000) then
-			  kstep=5
-			else
-			  if (n*nvar .gt.700000 .and. n*nvar
-     *			    .le.800000) then
-			    kstep=4
-			  else
-			    if (n*nvar .gt.800000 .and. n*nvar
-     *			      .le.900000) then
-			      kstep=3
-			    else
-			      if (n*nvar .gt.900000 .and. n*nvar
-     *				.le.1000000) then
-				kstep=2
-			      else
-				kstep =1
-			      endif
-			    endif
-			  endif
-			endif
-		      endif
-		    endif
+            else
+              if (n*nvar .gt.500000 .and. n*nvar
+     *            .le.600000) then
+              kstep=6
+            else
+            if (n*nvar .gt.600000 .and. n*nvar
+     *            .le.700000) then
+              kstep=5
+            else
+              if (n*nvar .gt.700000 .and. n*nvar
+     *            .le.800000) then
+                kstep=4
+              else
+                if (n*nvar .gt.800000 .and. n*nvar
+     *               .le.900000) then
+                  kstep=3
+                else
+                  if (n*nvar .gt.900000 .and. n*nvar
+     *               .le.1000000) then
+                kstep=2
+                  else
+                kstep =1
+                  endif
+                endif
+              endif
+            endif
+              endif
+            endif
                   endif
                 endif
               endif
@@ -682,7 +682,8 @@ cc
           do 83 i=1,10
             do 85 j=1,ngroup
               mcdndex(i,1,j)=10.d25
-85            mcdndex(i,2,j)=10.d25
+              mcdndex(i,2,j)=10.d25
+85          continue
 83         continue
         endif
 
@@ -699,7 +700,8 @@ cc
         if(fine .and. .not. final) then
           do 91, j=1,minigr
             do 93, k=1,nvar
-93            dath(j,k)=dat(subdat(1,j),k)
+               dath(j,k)=dat(subdat(1,j),k)
+93          continue
 91        continue
         endif
         kount=0
@@ -837,10 +839,12 @@ C       Select only complete observations
             do 270 j=1,pnsel
               if(.not.fine.and.part) then
                 do 271 m=1,nvar
-271              xdat(pnsel*(m-1)+j) = dath(xindex2(index1(j)),m)
+                 xdat(pnsel*(m-1)+j) = dath(xindex2(index1(j)),m)
+271             continue
               elseif(.not.part.and..not.final) THEN
                 do 272 m=1,nvar
-272              xdat(pnsel*(m-1)+j) = dat(xindex1(index1(j)),m)
+                 xdat(pnsel*(m-1)+j) = dat(xindex1(index1(j)),m)
+272             continue
               else
                 CALL INTPR("ERROR - should never come here!",-1,0,0)
               endif
@@ -908,10 +912,12 @@ c          CALL INTPR('I=1,NREP ....... compute distances',-1,i,1)
 c            CALL INTPR('Distances, j=1,nn',-1,j,1)
             if(.not.part.or.final) then
             do 152 mm=1,nvar
-152           rec(mm)=dat(j,mm)
+              rec(mm)=dat(j,mm)
+152         continue
             else
             do 153 mm=1,nvar
-153           rec(mm)=dath(j,mm)
+              rec(mm)=dath(j,mm)
+153         continue
             endif
 c            t=rfmahad(rec,nvar,means,cinv1)
 c            ndist(j)=t
@@ -944,7 +950,8 @@ c        CALL INTPR('step=1,kstep',-1,step,1)
 C VT::: Compute the covariance matrix of the nhalf observations
 C       with smallest D2
             do 155 j=1,nhalf
-155           temp(j)=index2(j)
+              temp(j)=index2(j)
+155         continue
             call rfishsort(temp,nhalf)
 
 C-EM-MCD-START
@@ -965,10 +972,12 @@ C-EM-MCD-END
             do 157 j=1,nhalf
               if(.not.part.or.final) then
                 do 158 mm=1,nvar
-158               xdat(nhalf*(mm-1)+j) = dat(temp(j),mm)
+                  xdat(nhalf*(mm-1)+j) = dat(temp(j),mm)
+158             continue
               else
                 do 159 mm=1,nvar
-159               xdat(nhalf*(mm-1)+j) = dath(temp(j),mm)
+                  xdat(nhalf*(mm-1)+j) = dath(temp(j),mm)
+159             continue
               endif
 157         continue
             CALL EMNINT(xdat,nhalf,nvar,
@@ -1011,10 +1020,12 @@ C       the first nhalf of index2
             do 171 j=1,nn
               if(.not.part.or.final) then
                 do 172 mm=1,nvar
-172               rec(mm)=dat(j,mm)
+                  rec(mm)=dat(j,mm)
+172           continue
               else
                 do 173 mm=1,nvar
-173               rec(mm)=dath(j,mm)
+                  rec(mm)=dath(j,mm)
+173             continue
               endif
               CALL NAMDIST(rec,nvar,means,cova1,cinv1,
      *              ndist(j),temp(j),am2(j),
@@ -1127,18 +1138,21 @@ cc
 
 203             do 221 k=10,j+1,-1
                   do 223 kk=1,nvar*nvar
-223                 c1stock((iii-1)*10+k,kk)=
+                    c1stock((iii-1)*10+k,kk)=
      *              c1stock((iii-1)*10+k-1,kk)
+223               continue
                   do 225 kk=1,nvar
-225                 m1stock((iii-1)*10+k,kk)=
+                    m1stock((iii-1)*10+k,kk)=
      *              m1stock((iii-1)*10+k-1,kk)
+225               continue
                   mcdndex(k,1,iii)=mcdndex(k-1,1,iii)
                   mcdndex(k,2,iii)=mcdndex(k-1,2,iii)
 221             continue
                 do 227 kk=1,nvar
                   do 229 kkk=1,nvar
-229                 c1stock((iii-1)*10+j,(kk-1)*nvar+kkk)=
+                    c1stock((iii-1)*10+j,(kk-1)*nvar+kkk)=
      *              cova1((kk-1)*nvar+kkk)
+229               continue
                   m1stock((iii-1)*10+j,kk)=means(kk)
 227             continue
                 mcdndex(j,1,iii)=i
@@ -1147,16 +1161,19 @@ cc
 
 205             do 231 k=10,j+1,-1
                   do 233 kk=1,nvar*nvar
-233                 cstock(k,kk) = cstock(k-1,kk)
+                    cstock(k,kk) = cstock(k-1,kk)
+233               continue
                   do 235 kk=1,nvar
-235                 mstock(k,kk) = mstock(k-1,kk)
+                    mstock(k,kk) = mstock(k-1,kk)
+235               continue
                   mcdndex(k,1,iii)=mcdndex(k-1,1,iii)
                   mcdndex(k,2,iii)=mcdndex(k-1,2,iii)
 231             continue
                 do 237 kk=1,nvar
                   do 239 kkk=1,nvar
-239                 cstock(j,(kk-1)*nvar+kkk)=
+                    cstock(j,(kk-1)*nvar+kkk)=
      *                  cova1((kk-1)*nvar+kkk)
+239               continue
                   mstock(j,kk)=means(kk)
 237             continue
                 mcdndex(j,1,iii)=i
@@ -1272,21 +1289,24 @@ cc
       double precision means(nvar)
 cc
       do 10,k=10,2,-1
-	do 20 kk=1,nvar*nvar
- 20	  c1stock((ii-1)*10+k,kk)=
-     *	c1stock((ii-1)*10+k-1,kk)
-	do 30 kk=1,nvar
- 30	  m1stock((ii-1)*10+k,kk)=
-     *	m1stock((ii-1)*10+k-1,kk)
-	mcdndex(k,1,ii)=mcdndex(k-1,1,ii)
-	mcdndex(k,2,ii)=mcdndex(k-1,2,ii)
- 10   continue
+      do 20 kk=1,nvar*nvar
+       c1stock((ii-1)*10+k,kk)=
+     * c1stock((ii-1)*10+k-1,kk)
+20    continue
+      do 30 kk=1,nvar
+       m1stock((ii-1)*10+k,kk)=
+     *   m1stock((ii-1)*10+k-1,kk)
+30    continue
+      mcdndex(k,1,ii)=mcdndex(k-1,1,ii)
+      mcdndex(k,2,ii)=mcdndex(k-1,2,ii)
+10    continue
       do 40 kk=1,nvar
-	m1stock((ii-1)*10+1,kk)=means(kk)
-	do 50 jj=1,nvar
- 50	  c1stock((ii-1)*10+1,(kk-1)*nvar+jj)=
-     *	  cova1(kk,jj)
- 40   continue
+      m1stock((ii-1)*10+1,kk)=means(kk)
+      do 50 jj=1,nvar
+      c1stock((ii-1)*10+1,(kk-1)*nvar+jj)=
+     *    cova1(kk,jj)
+50    continue
+40    continue
       mcdndex(1,1,ii)=i
       mcdndex(1,2,ii)=kount
       return
@@ -1313,17 +1333,17 @@ c     real uniran
 c
       do 100 i=1,nsel
 10      num=int(unifrnd()*n)+1
-C 	 if(num .gt. n) then
-C 	    call intpr('** rfrangen(): num > n; num=', -1, num, 1)
-C 	    num=n
-C 	 endif
+C     if(num .gt. n) then
+C       call intpr('** rfrangen(): num > n; num=', -1, num, 1)
+C       num=n
+C     endif
          if(i.gt.1) then
             do 50 j=1,i-1
                if(index(j).eq.num) goto 10
 50          continue
          endif
          index(i)=num
- 100  continue
+100   continue
       return
       end
 
@@ -1336,52 +1356,52 @@ cc
 cc
         integer k,i
 
-	k=nsel
-	index(k)=index(k)+1
+      k=nsel
+      index(k)=index(k)+1
 c while
- 10	if(k.eq.1 .or. index(k).le.(n-(nsel-k))) goto 100
-	k=k-1
-	index(k)=index(k)+1
-	do 50 i=k+1,nsel
-	  index(i)=index(i-1)+1
- 50	continue
-	goto 10
+10    if(k.eq.1 .or. index(k).le.(n-(nsel-k))) goto 100
+      k=k-1
+      index(k)=index(k)+1
+      do 50 i=k+1,nsel
+       index(i)=index(i-1)+1
+50    continue
+      goto 10
 c end{while}
- 100	return
-	end
+100   return
+      end
 ccccc
 ccccc
-	subroutine rfshsort(a,n)
+      subroutine rfshsort(a,n)
 cc
-cc  Sorts the array a of length n.
+cc    Sorts the array a of length n.
 cc
         implicit none
         integer n
-	double precision a(n)
+      double precision a(n)
 c
-	double precision t
-	integer gap, i,j, nextj
+      double precision t
+      integer gap, i,j, nextj
 
-	gap=n
- 100	gap=gap/2
-	if(gap.eq.0) goto 200
-	do 180 i=1,n-gap
-	  j=i
- 120	  if(j.lt.1) goto 180
-	  nextj=j+gap
-	  if(a(j).gt.a(nextj)) then
-	    t=a(j)
-	    a(j)=a(nextj)
-	    a(nextj)=t
-	  else
-	    j=0
-	  endif
-	  j=j-gap
-	  goto 120
- 180	continue
-	goto 100
- 200	return
-	end
+      gap=n
+ 100    gap=gap/2
+      if(gap.eq.0) goto 200
+      do 180 i=1,n-gap
+         j=i
+ 120     if(j.lt.1) goto 180
+      nextj=j+gap
+      if(a(j).gt.a(nextj)) then
+        t=a(j)
+        a(j)=a(nextj)
+        a(nextj)=t
+      else
+        j=0
+      endif
+      j=j-gap
+      goto 120
+ 180    continue
+      goto 100
+ 200    return
+      end
 ccccc
 ccccc
         subroutine rfishsort(a,kk)
@@ -1399,20 +1419,20 @@ c
         do 180 i=1,kk-gap
           j=i
 120       if(j.lt.1) goto 180
-	  nextj=j+gap
-	  if(a(j).gt.a(nextj)) then
-	    t=a(j)
-	    a(j)=a(nextj)
-	    a(nextj)=t
-	  else
-	    j=0
-	  endif
-	  j=j-gap
-	  goto 120
- 180	continue
-	goto 100
- 200	return
-	end
+      nextj=j+gap
+      if(a(j).gt.a(nextj)) then
+        t=a(j)
+        a(j)=a(nextj)
+        a(nextj)=t
+      else
+        j=0
+      endif
+      j=j-gap
+      goto 120
+ 180    continue
+      goto 100
+ 200   return
+      end
 ccccc
 ccccc
       function replow(k)
@@ -1530,12 +1550,12 @@ cc
         do 10 k=1,ngroup
            do 20 m=1,mini(k)
             nrand=int(unifrnd()*(n-jndex))+1
-C 	    if(nrand .gt. n-jndex) then
-C 	       call intpr(
+C       if(nrand .gt. n-jndex) then
+C          call intpr(
 C      1         '** rfrdraw(): need to correct nrand > n-jndex; nrand=',
 C      2	                  -1, nrand, 1)
-C 	       nrand=n-jndex
-C 	    endif
+C          nrand=n-jndex
+C        endif
 
             jndex=jndex+1
             if(jndex.eq.1) then

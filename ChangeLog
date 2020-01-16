@@ -1,8 +1,17 @@
-2019-10-20  Valentin Todorov  <valentin.todorov@chello.at>
+2020-01-15  Valentin Todorov  <valentin.todorov@chello.at>
     *
-    * DESCRIPTION (Version): 0.4-11
+    * DESCRIPTION (Version): 0.4-14
     *
-    *	src/fmcd.f, emncov.f: fixed warnings by a new FORTRAN compiler - 
+    *	NAMESPACE - to fix an issue with an update of rrcov: remove 'exportPattern'
+    *       and define every exported function separately
+    *   R/CovRobust.R, NAMESPACE, DESCRIPTION - removed the dependence on 
+    *       package 'cluster' - function ellipsoidPoints
+    *
+2019-10-22  Valentin Todorov  <valentin.todorov@chello.at>
+    *
+    * DESCRIPTION (Version): 0.4-13
+    *
+    *	src/fmcd.f, emncov.f: fixed warnings by a new FORTRAN compiler -
     *       see mail from Prof. Ripley from 3.October 2019
     *	src/rrcovna_init.c: Registration of native routines
     *

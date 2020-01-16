@@ -429,8 +429,8 @@ if(rescale){
          initcovariance = double(p * p),
          initmean       = double(p),
          best       = rep.int(as.integer(10000), h),
-         mcdestimate = double(1),    ## = 'det'
-         exactfit  = integer(1), # output indicator: 0: ok; 1: ..., 2: ..
+         mcdestimate = double(1),    # = 'det'
+         exactfit  = integer(1),     # output indicator: 0: ok; 1: ..., 2: ..
          kount     = integer(1),
          temp   = integer(n),
          index1 = integer(n),
@@ -439,7 +439,6 @@ if(rescale){
          ndist  = double(n),
          am     = double(n),
          am2    = double(n),
-         slutn  = double(n),
 
          sd    = double(p),
          means = double(p),

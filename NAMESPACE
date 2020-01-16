@@ -1,14 +1,9 @@
 useDynLib(rrcovNA)
 
-## Export all names
-exportPattern(".")
-
-# Import all packages listed as Imports or Depends
-
+## Import all packages listed as Imports or Depends
 importFrom(stats4, plot, summary)
 importFrom(methods, show)
 importFrom(lattice, xyplot, panel.xyplot, panel.abline, ltext)
-importFrom(cluster, ellipsoidPoints)
 importFrom("grDevices", "dev.interactive", "palette")
 importFrom("graphics", "abline", "arrows", "axis", "box", "hist",
          "legend", "lines", "pairs", "par", "points", "rect",
@@ -22,12 +17,26 @@ importFrom("stats", ".getXlevels", "cor", "cov", "cov.wt", "cov2cor",
          "uniroot", "var")
 importFrom("utils", "combn")
 
-# importFrom(GSE, GSE)
+importFrom(cluster, ellipsoidPoints)
+
+## importFrom(GSE, GSE)
 
 import(
   robustbase,
   rrcov,
   norm
+)
+
+export(CovNARobust,
+       CovNAClassic,
+       CovNAMcd,
+       CovNASde,
+       CovNASest,
+       CovNAOgk,
+       impNorm,
+       impSeq,
+       impSeqRob,
+       PcaNA
 )
 
 ##S3 generics

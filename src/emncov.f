@@ -150,7 +150,8 @@ C    r <- 1 * is.na(x)
 C    nmis <- as.integer(apply(r, 2, sum))
 
         DO 10 j=1,p
-10         nmis(j) = 0
+           nmis(j) = 0
+10      CONTINUE
 
         DO 20 i=1,n
            DO 30 j=1,p
@@ -166,36 +167,50 @@ C Index the missing data patterns
 C   mdp <- as.integer((r %*% (2^((1:ncol(x)) - 1))) + 1)
 
         DO 40 j=1,p
-40         oc(j) = 2 ** (j - 1 )
+           oc(j) = 2 ** (j - 1 )
+40      CONTINUE
 C        CALL INTPR('OC: ',-1,oc,p)
 
         DO 50 i=1,n
            nmdp(i) = 0
            DO 60 j=1,p
-60            nmdp(i) = nmdp(i) + r(i,j)*oc(j)
+              nmdp(i) = nmdp(i) + r(i,j)*oc(j)
+60         CONTINUE
            nmdp(i) = nmdp(i) + 1
 50      CONTINUE
 
 C Do row sort and rearrange the rows of x, r, nmdp
         CALL MYORD(nmdp, n, ro)
-        DO 300 i=1,n
+        DO 301 i=1,n
            do 300 j=1,p
-300           xtmp(i,j) = x(ro(i),j)
-        DO 310 i=1,n
+              xtmp(i,j) = x(ro(i),j)
+300        CONTINUE
+301    CONTINUE
+        DO 311 i=1,n
            do 310 j=1,p
-310           x(i,j) = xtmp(i,j)
+              x(i,j) = xtmp(i,j)
+310        CONTINUE
+311    CONTINUE
 
-        DO 340 i=1,n
+        DO 341 i=1,n
            do 340 j=1,p
-340           xtmp(i,j) = r(ro(i),j)
-        DO 350 i=1,n
+              xtmp(i,j) = r(ro(i),j)
+340        CONTINUE
+341    CONTINUE
+
+        DO 351 i=1,n
            Do 350 j=1,p
-350           r(i,j) = xtmp(i,j)
+              r(i,j) = xtmp(i,j)
+350        CONTINUE
+351    CONTINUE
 
         DO 360 i=1,n
-360        xtmp(i,1) = nmdp(ro(i))
+           xtmp(i,1) = nmdp(ro(i))
+360     CONTINUE
         DO 370 i=1,n
-370        nmdp(i) = xtmp(i,1)
+           nmdp(i) = xtmp(i,1)
+370     CONTINUE
+
 
 C Compress missing data patterns - only the non-duplicates
 C       npatt is the number of non-dupl. patterns which
@@ -203,9 +218,11 @@ C       are stored in mdpst(npatt)
         CALL MYNDUPL(nmdp, n, mdpst, npatt)
 
 C Compress the matrix r(n,p) -> r(npatt,p)
-        DO 380 i=1,npatt
+        DO 381 i=1,npatt
            do 380 j=1,p
-380           xtmp(i,j) = 1 - r(mdpst(i),j)
+              xtmp(i,j) = 1 - r(mdpst(i),j)
+380        CONTINUE
+381     CONTINUE
         CALL SETMAT(r, n, p, npatt, xtmp)
 
 C Other bookkeeping quantities - nmdp will contain
@@ -214,7 +231,8 @@ C       the number of observations for each unique pattern
            nmdp(1) = n
         ELSE
            DO 390 i=2,npatt
-390           nmdp(i-1) = mdpst(i) - mdpst(i-1)
+              nmdp(i-1) = mdpst(i) - mdpst(i-1)
+390        CONTINUE
            nmdp(npatt) = n + 1 - mdpst(npatt)
         ENDIF
 C        CALL INTPR('NMDP: ',-1,nmdp,npatt)
@@ -230,7 +248,8 @@ C Main loop call EMN from package norm
         DO 100 it=1,maxits
            DO 80 j=1,d
               t(j) = theta(j)
-80            old(j) = theta(j)
+              old(j) = theta(j)
+80         CONTINUE
            CALL EMN(d, t, theta, tobs, p, psi, n, x,
      1           npatt, r, mdpst, nmdp, oc, mc, c, mle, tau, m,
      2           mu, sigma)
@@ -257,10 +276,11 @@ c           CALL DBLEPR('tmax: ',-1,tmax,1)
         integer npatt, p, r(npatt,p)
         double precision xtmp(n,p)
 
-        DO 390 i=1,npatt
+        DO 391 i=1,npatt
            Do 390 j=1,p
-390           r(i,j) = xtmp(i,j)
-
+              r(i,j) = xtmp(i,j)
+390        CONTINUE
+391     CONTINUE
 
 C       CALL INTPR('R: ',-1,r,npatt*p)
         RETURN
@@ -276,7 +296,8 @@ C
 
 C       mu <- theta[s$psi[1, 2:(s$p + 1)]] * s$sdv + s$xbar
         do 10 i=1,p
-10         mu(i) = theta(psi(0, i)) * sdv(i) + xbar(i)
+           mu(i) = theta(psi(0, i)) * sdv(i) + xbar(i)
+10      CONTINUE
 
 C       sigma <- theta[s$psi[2:(s$p + 1), 2:(s$p + 1)]]
 C       sigma <- matrix(sigma, s$p, s$p)
@@ -580,7 +601,8 @@ C real x(n,p),mvcode was replaced by line below
         integer t, gap, i,j, nextj
 
         do 10 i=1,kk
-10         ind(i) = i
+           ind(i) = i
+10      CONTINUE
         gap=kk
 100     gap=gap/2
         if(gap.eq.0) goto 200
@@ -683,8 +705,9 @@ C
 
         do 10 i=1,n
            do 20 j=1,p
-20            rec(j) = x(i,j)
-              CALL NAMDIST(rec,p,mu,sigma,cinv,mah,nov,z,
+              rec(j) = x(i,j)
+20         CONTINUE
+           CALL NAMDIST(rec,p,mu,sigma,cinv,mah,nov,z,
      *                     ov,mutmp,ctmp,mvcode,EPS)
 
               amah(i) = mah
