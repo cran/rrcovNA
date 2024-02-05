@@ -1,5 +1,5 @@
-67f30a3a58bbb51e8ad56e4c173f1f6a *ChangeLog
-12e54dad8c5a713fc9238e7b8ea174ab *DESCRIPTION
+35ebe8a52b8f402726b3deabffeb3f12 *ChangeLog
+023c7724564e4cc0b077b5addf8038cf *DESCRIPTION
 696596446189fcc9d028559da0992500 *NAMESPACE
 6b1e0d2389503838862be4fb5c36c1ee *R/AllClasses.R
 016109243b41dcfabfbab51a5cca92c8 *R/CovNA.R
@@ -17,7 +17,7 @@ fb3de32863d63e399103a981b23b9bd6 *R/CovNASest.R
 54df14d4f4c08c35e1543fc25926d50f *R/imputation.R
 60e3da8db890bc961ccf8ccc6b4dcbe7 *R/na-utils.R
 5752f99eceda48e21d5743fe05c7c9b6 *R/zzz.R
-421ef4c5854346761e7f385127687fa6 *README.md
+aa52a722fbc51ecacd182c7634d652dc *README.md
 922dc23dc143e409743b64c8287a8529 *data/bush10.rda
 e7d7ccfb9ddb8c5c0efe625fc3403b0e *data/ces.rda
 db061b572094b94835ebf34254ea8c61 *man/CovNA-class.Rd
@@ -40,8 +40,8 @@ e7b78a317bcc09e5afdf118170dfeb11 *man/CovNASest.Rd
 20b3e879c81bbd22ea61ab68df41abbe *man/bush10.Rd
 f7e80991ebd708b991ca57f87c038c02 *man/ces.Rd
 f65e383ed4fc291901daa3f0e245663c *man/impnorm.Rd
-647e53f68d04335a8c7e93bd6af019ef *man/impseq.Rd
-0b80c44d911cf90a244c526693803883 *man/impseqrob.Rd
+fcd350b5641987fcf224d41b2ea74353 *man/impseq.Rd
+32f11a6c8cd91dfb4414536f4eae256b *man/impseqrob.Rd
 174d300e4520673a0114f4d6eeba98a5 *src/R-rng4ftn.c
 1dde7251a41798a05f0cf14dcf6e815d *src/emncov.f
 6b414be7f98e688de8c2b4eb089a8f39 *src/fmcd.f

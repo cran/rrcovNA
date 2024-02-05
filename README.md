@@ -48,7 +48,7 @@ installed:
 library(rrcovNA)
 #> Loading required package: rrcov
 #> Loading required package: robustbase
-#> Scalable Robust Estimators with High Breakdown Point (version 1.7-3)
+#> Scalable Robust Estimators with High Breakdown Point (version 1.7-5)
 #> Scalable Robust Estimators with High Breakdown Point for
 #> Incomplete Data (version 0.5-0)
 data(bush10)
